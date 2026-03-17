@@ -1,0 +1,1220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>InstaGrow — Instagram Growth</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ════════════════════════════════
+   TOKENS
+════════════════════════════════ */
+:root {
+  --ig1:#f09433;--ig2:#e6683c;--ig3:#dc2743;--ig4:#cc2366;--ig5:#bc1888;
+  --grad:linear-gradient(135deg,var(--ig1),var(--ig2),var(--ig3),var(--ig4),var(--ig5));
+  --bg:#fafafa;--white:#fff;--surface:#f4f4f8;
+  --border:#e6e6ee;--border2:#d4d4e0;
+  --text:#16162a;--text2:#3a3a52;--muted:#8888a8;--muted2:#b4b4c8;
+  --success:#00c87c;--error:#ff3355;--info:#3b82f6;
+  --sh0:0 1px 4px rgba(0,0,0,.05);
+  --sh1:0 4px 16px rgba(0,0,0,.07);
+  --sh2:0 12px 40px rgba(0,0,0,.10);
+  --sh3:0 24px 70px rgba(0,0,0,.13);
+  --r:22px;--rs:12px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;
+  min-height:100vh;overflow-x:hidden}
+
+/* ════════════════════════════════
+   BACKGROUND DECORATION
+════════════════════════════════ */
+.bg-orbs{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.bg-orbs::before{content:'';position:absolute;top:-20vh;right:-15vw;
+  width:55vw;height:55vw;border-radius:50%;
+  background:radial-gradient(circle,#f0943315,transparent 65%)}
+.bg-orbs::after{content:'';position:absolute;bottom:-20vh;left:-15vw;
+  width:50vw;height:50vw;border-radius:50%;
+  background:radial-gradient(circle,#bc188815,transparent 65%)}
+
+/* ════════════════════════════════
+   NAVIGATION
+════════════════════════════════ */
+nav{position:sticky;top:0;z-index:100;height:60px;
+  background:rgba(250,250,250,.85);
+  backdrop-filter:blur(28px) saturate(200%);
+  -webkit-backdrop-filter:blur(28px) saturate(200%);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;padding:0 20px}
+.nav-logo{font-family:'Outfit',sans-serif;font-weight:900;font-size:20px;
+  background:var(--grad);-webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;background-clip:text;letter-spacing:-.5px}
+.nav-tabs{display:flex;gap:4px}
+.nav-tab{padding:7px 16px;border-radius:100px;border:none;background:transparent;
+  font-family:'Inter',sans-serif;font-size:13px;font-weight:500;
+  color:var(--muted);cursor:pointer;transition:all .2s}
+.nav-tab.active,.nav-tab:hover{background:var(--surface);color:var(--text)}
+.nav-tab.active{font-weight:600}
+
+/* ════════════════════════════════
+   PAGES
+════════════════════════════════ */
+.page{display:none}
+.page.active{display:block;animation:pgIn .3s cubic-bezier(.4,0,.2,1)}
+@keyframes pgIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+/* ════════════════════════════════
+   HERO
+════════════════════════════════ */
+.hero{text-align:center;padding:52px 20px 36px;position:relative;z-index:1}
+.hero-chip{display:inline-flex;align-items:center;gap:7px;
+  background:var(--white);border:1px solid var(--border);box-shadow:var(--sh0);
+  padding:6px 16px;border-radius:100px;font-size:12px;font-weight:600;
+  color:var(--muted);margin-bottom:20px;letter-spacing:.2px}
+.pulse{width:7px;height:7px;border-radius:50%;background:var(--success);
+  animation:plz 2s ease-in-out infinite}
+@keyframes plz{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.35)}}
+.hero h1{font-family:'Outfit',sans-serif;font-size:clamp(36px,9vw,64px);
+  font-weight:900;line-height:1.05;letter-spacing:-2.5px;margin-bottom:14px}
+.grd{background:var(--grad);-webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;background-clip:text}
+.hero-p{color:var(--muted);font-size:15px;max-width:360px;
+  margin:0 auto;line-height:1.65}
+
+/* ════════════════════════════════
+   MAIN
+════════════════════════════════ */
+main{max-width:540px;margin:0 auto;padding:0 16px 80px;position:relative;z-index:1}
+
+/* ════════════════════════════════
+   SECTION LABEL
+════════════════════════════════ */
+.slabel{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;
+  color:var(--muted2);margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.slabel::after{content:'';flex:1;height:1px;background:var(--border)}
+
+/* ════════════════════════════════
+   SERVICE CARDS
+════════════════════════════════ */
+.svc-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:28px}
+.svc-card{position:relative;overflow:hidden;background:var(--white);
+  border:2px solid var(--border);border-radius:var(--r);padding:20px 16px 16px;
+  cursor:pointer;transition:all .22s cubic-bezier(.4,0,.2,1);box-shadow:var(--sh0)}
+.svc-card::after{content:'';position:absolute;inset:0;background:var(--grad);
+  opacity:0;transition:opacity .22s;pointer-events:none;border-radius:var(--r)}
+.svc-card:hover{transform:translateY(-3px);box-shadow:var(--sh2);border-color:#e6683c55}
+.svc-card.sel{border-color:transparent;box-shadow:0 0 0 2.5px #e6683c,var(--sh2);transform:translateY(-2px)}
+.svc-card.sel::after{opacity:.07}
+.svc-icon{width:50px;height:50px;border-radius:15px;background:var(--grad);
+  display:flex;align-items:center;justify-content:center;font-size:24px;
+  margin-bottom:12px;box-shadow:0 6px 18px #dc274328;position:relative;z-index:1}
+.svc-name{font-family:'Outfit',sans-serif;font-weight:700;font-size:14px;
+  margin-bottom:3px;position:relative;z-index:1}
+.svc-rate{font-size:13px;font-weight:700;position:relative;z-index:1;
+  background:var(--grad);-webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;background-clip:text}
+.svc-badge{position:absolute;top:11px;right:11px;z-index:2;
+  font-size:9px;font-weight:800;background:var(--grad);color:#fff;
+  padding:3px 9px;border-radius:100px;letter-spacing:.3px}
+.svc-tick{position:absolute;top:11px;right:11px;z-index:2;
+  width:22px;height:22px;border-radius:50%;background:var(--grad);
+  color:#fff;font-size:12px;display:none;align-items:center;justify-content:center}
+.svc-card.sel .svc-tick{display:flex}
+.svc-card.sel .svc-badge{display:none}
+
+/* ════════════════════════════════
+   ORDER BOX
+════════════════════════════════ */
+.obox{background:var(--white);border:1px solid var(--border);
+  border-radius:var(--r);box-shadow:var(--sh1);overflow:hidden;display:none}
+.obox-hd{padding:16px 20px;
+  background:linear-gradient(135deg,#fff7f0,#fff0f7);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:12px}
+.obox-ico{width:40px;height:40px;border-radius:13px;background:var(--grad);
+  display:flex;align-items:center;justify-content:center;font-size:20px;
+  box-shadow:0 4px 14px #dc274330;flex-shrink:0}
+.obox-title{font-family:'Outfit',sans-serif;font-weight:700;font-size:15px}
+.obox-sub{font-size:12px;color:var(--muted);margin-top:1px}
+.obox-body{padding:20px}
+
+/* ════════════════════════════════
+   FORM
+════════════════════════════════ */
+.fg{margin-bottom:15px}
+.fl{display:block;font-size:10px;font-weight:800;text-transform:uppercase;
+  letter-spacing:.9px;color:var(--muted);margin-bottom:6px}
+.fi{width:100%;background:var(--surface);border:1.5px solid var(--border);
+  color:var(--text);border-radius:var(--rs);padding:12px 15px;font-size:15px;
+  font-family:'Inter',sans-serif;outline:none;transition:all .18s;appearance:none}
+.fi:focus{border-color:#e6683c;background:var(--white);box-shadow:0 0 0 4px #e6683c12}
+.fi::placeholder{color:var(--muted2)}
+.fi option{background:var(--white);color:var(--text)}
+
+/* ════════════════════════════════
+   QUANTITY STEPPER
+════════════════════════════════ */
+.qrow{display:flex;align-items:center;gap:10px}
+.qbtn{width:44px;height:44px;flex-shrink:0;border-radius:12px;
+  background:var(--surface);border:1.5px solid var(--border);
+  color:var(--text);font-size:22px;font-weight:300;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:all .15s;line-height:1;user-select:none}
+.qbtn:hover{border-color:#e6683c;background:#fff5f0;color:#e6683c}
+.qbtn:active{transform:scale(.93)}
+.qf{flex:1;text-align:center;font-weight:700;font-size:18px}
+.qrange{display:flex;justify-content:space-between;
+  font-size:11px;color:var(--muted);margin-top:5px;padding:0 4px}
+.qrange b{color:var(--text2)}
+
+/* ════════════════════════════════
+   DIVIDER
+════════════════════════════════ */
+.dv{display:flex;align-items:center;gap:10px;margin:16px 0;
+  font-size:11px;color:var(--muted2);font-weight:600;letter-spacing:.3px}
+.dv::before,.dv::after{content:'';flex:1;height:1px;background:var(--border)}
+
+/* ════════════════════════════════
+   PROMO
+════════════════════════════════ */
+.prow{display:flex;gap:8px}
+.prow .fi{flex:1;letter-spacing:1.5px;font-weight:700}
+.pbtn{background:var(--grad);color:#fff;border:none;
+  padding:12px 18px;border-radius:var(--rs);font-family:'Outfit',sans-serif;
+  font-weight:800;font-size:13px;cursor:pointer;white-space:nowrap;
+  box-shadow:0 4px 14px #dc274322;transition:all .18s}
+.pbtn:hover{transform:translateY(-1px);box-shadow:0 6px 20px #dc274332}
+.pmsg{font-size:12px;font-weight:600;margin-top:6px;
+  display:flex;align-items:center;gap:5px}
+.pmsg.ok{color:var(--success)}.pmsg.err{color:var(--error)}
+
+/* ════════════════════════════════
+   PRICE BOX
+════════════════════════════════ */
+.pbox{background:linear-gradient(135deg,#fff8f0,#fff0f8);
+  border:1.5px solid #f0d0c0;border-radius:var(--r);
+  padding:16px 20px;display:flex;align-items:center;
+  justify-content:space-between;margin-bottom:14px}
+.p-lbl{font-size:10px;font-weight:800;text-transform:uppercase;
+  letter-spacing:.9px;color:var(--muted);margin-bottom:5px}
+.p-strike{font-size:13px;color:var(--muted);text-decoration:line-through}
+.p-saved{font-size:11px;color:var(--success);font-weight:700;margin-left:6px}
+.p-val{font-family:'Outfit',sans-serif;font-weight:900;font-size:38px;
+  line-height:1;background:var(--grad);-webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;background-clip:text}
+.p-val sup{font-size:20px;vertical-align:top;margin-top:6px;display:inline-block}
+
+/* ════════════════════════════════
+   ORDER BUTTON
+════════════════════════════════ */
+.obtn{width:100%;padding:16px;background:var(--grad);color:#fff;border:none;
+  border-radius:var(--rs);font-family:'Outfit',sans-serif;font-weight:900;
+  font-size:17px;letter-spacing:.3px;cursor:pointer;
+  transition:all .2s;box-shadow:0 6px 24px #dc274338;
+  display:flex;align-items:center;justify-content:center;gap:10px}
+.obtn:hover{transform:translateY(-2px);box-shadow:0 10px 36px #dc274448}
+.obtn:active{transform:translateY(0)}
+.obtn:disabled{opacity:.55;cursor:not-allowed;transform:none;box-shadow:none}
+
+/* ════════════════════════════════
+   TRUST ROW
+════════════════════════════════ */
+.trust{display:flex;justify-content:center;gap:20px;
+  margin-top:12px;flex-wrap:wrap}
+.ti{display:flex;align-items:center;gap:5px;
+  font-size:11px;color:var(--muted);font-weight:500}
+.ti span{font-size:13px}
+
+/* ════════════════════════════════
+   REFILL PAGE
+════════════════════════════════ */
+.refill-hero{text-align:center;padding:52px 20px 36px;position:relative;z-index:1}
+.refill-main{max-width:480px;margin:0 auto;padding:0 16px 80px;position:relative;z-index:1}
+.rbox{background:var(--white);border:1px solid #c0e8d8;border-radius:var(--r);
+  box-shadow:var(--sh1);overflow:hidden}
+.rbox-hd{padding:16px 20px;background:linear-gradient(135deg,#f0fff9,#e8fff5);
+  border-bottom:1px solid #d0f0e4;display:flex;align-items:center;gap:12px}
+.rbox-ico{width:40px;height:40px;border-radius:13px;
+  background:linear-gradient(135deg,#00c87c,#00a866);
+  display:flex;align-items:center;justify-content:center;font-size:20px;
+  box-shadow:0 4px 14px #00c87c28;flex-shrink:0}
+.rbox-title{font-family:'Outfit',sans-serif;font-weight:700;font-size:15px}
+.rbox-sub{font-size:12px;color:var(--muted);margin-top:1px}
+.rbox-body{padding:20px}
+.rbtn{width:100%;padding:15px;background:linear-gradient(135deg,#00c87c,#00a866);
+  color:#fff;border:none;border-radius:var(--rs);font-family:'Outfit',sans-serif;
+  font-weight:900;font-size:16px;cursor:pointer;
+  box-shadow:0 6px 24px #00c87c30;transition:all .2s;
+  display:flex;align-items:center;justify-content:center;gap:8px}
+.rbtn:hover{transform:translateY(-2px);box-shadow:0 10px 32px #00c87c40}
+.rbtn:disabled{opacity:.55;cursor:not-allowed;transform:none}
+.rmsg{padding:12px 16px;border-radius:var(--rs);font-size:13px;
+  font-weight:600;margin-top:12px;display:none;line-height:1.5}
+.rmsg.ok{background:#e6fff5;border:1px solid #00c87c33;color:#00a866}
+.rmsg.err{background:#fff0f3;border:1px solid #ff335533;color:#cc2244}
+.refill-note{background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--rs);padding:14px 16px;font-size:12px;
+  color:var(--muted);line-height:1.7;margin-top:16px}
+.refill-note b{color:var(--text2)}
+
+/* ════════════════════════════════
+   ADMIN
+════════════════════════════════ */
+.alogin{max-width:380px;margin:60px auto;padding:0 16px}
+.alogin-logo{text-align:center;margin-bottom:24px}
+.alogin-logo .lg{font-family:'Outfit',sans-serif;font-weight:900;font-size:28px;
+  background:var(--grad);-webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;background-clip:text}
+.alogin-logo p{font-size:13px;color:var(--muted);margin-top:4px}
+.acard{background:var(--white);border:1px solid var(--border);
+  border-radius:var(--r);padding:28px;box-shadow:var(--sh2)}
+.awrap{max-width:720px;margin:0 auto;padding:24px 16px 80px}
+.atopbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:28px}
+.atopbar h2{font-family:'Outfit',sans-serif;font-weight:800;font-size:22px;letter-spacing:-.5px}
+.atopbar p{font-size:13px;color:var(--muted);margin-top:2px}
+.ac{background:var(--white);border:1px solid var(--border);
+  border-radius:var(--r);padding:20px;margin-bottom:16px;box-shadow:var(--sh0)}
+.ac-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.ac-title{font-family:'Outfit',sans-serif;font-weight:700;font-size:15px;
+  display:flex;align-items:center;gap:8px}
+.ac-ico{width:30px;height:30px;border-radius:9px;
+  background:linear-gradient(135deg,#fff5f0,#ffe0f0);
+  border:1px solid #f0d0d0;display:flex;align-items:center;justify-content:center;font-size:15px}
+.atbl{width:100%;border-collapse:collapse;font-size:13px}
+.atbl th{text-align:left;padding:9px 12px;font-size:10px;font-weight:700;
+  text-transform:uppercase;letter-spacing:.7px;color:var(--muted);
+  border-bottom:1px solid var(--border)}
+.atbl td{padding:10px 12px;border-bottom:1px solid var(--border);color:var(--text2)}
+.atbl td:first-child{font-weight:600;color:var(--text)}
+.atbl tr:last-child td{border-bottom:none}
+.atbl tr:hover td{background:#fafafa}
+.tag{display:inline-block;padding:3px 10px;border-radius:100px;
+  font-size:10px;font-weight:700;letter-spacing:.4px}
+.tag.active{background:#e6faf2;color:#00a866}
+.tag.inactive{background:#fff0f0;color:#cc3344}
+.add-btn{background:var(--grad);color:#fff;border:none;
+  padding:8px 18px;border-radius:10px;font-family:'Outfit',sans-serif;
+  font-weight:700;font-size:13px;cursor:pointer;box-shadow:0 3px 12px #dc274325;
+  transition:all .18s}
+.add-btn:hover{transform:translateY(-1px);box-shadow:0 5px 18px #dc274335}
+.sm-btn{padding:6px 14px;border-radius:8px;border:1px solid var(--border);
+  background:var(--surface);color:var(--text2);font-size:12px;font-weight:500;
+  cursor:pointer;font-family:'Inter',sans-serif;transition:all .15s}
+.sm-btn:hover{border-color:#e6683c;color:#e6683c;background:#fff5f0}
+.sm-btn.del{border-color:#ffcccc;color:#cc3344}
+.sm-btn.del:hover{background:#fff0f0}
+.code-block{background:#1e1e2e;border-radius:var(--rs);padding:16px;
+  font-size:11.5px;line-height:1.7;color:#a8d8a8;overflow-x:auto;
+  white-space:pre;font-family:'Courier New',monospace;
+  border:1px solid #2a2a40;user-select:all}
+.step{display:flex;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);
+  font-size:13px;color:var(--text2);line-height:1.5}
+.step:last-child{border-bottom:none}
+.sn{width:24px;height:24px;border-radius:50%;background:var(--grad);
+  color:#fff;display:flex;align-items:center;justify-content:center;
+  font-family:'Outfit',sans-serif;font-weight:800;font-size:11px;flex-shrink:0;margin-top:1px}
+
+/* ════════════════════════════════
+   MODAL
+════════════════════════════════ */
+.mbg{position:fixed;inset:0;background:rgba(0,0,0,.3);
+  backdrop-filter:blur(5px);z-index:200;
+  display:flex;align-items:center;justify-content:center;
+  padding:16px;opacity:0;pointer-events:none;transition:opacity .22s}
+.mbg.open{opacity:1;pointer-events:all}
+.mbox{background:var(--white);border-radius:24px;padding:28px;
+  width:100%;max-width:420px;box-shadow:var(--sh3);
+  transform:scale(.94) translateY(10px);
+  transition:transform .22s cubic-bezier(.4,0,.2,1);
+  max-height:90vh;overflow-y:auto}
+.mbg.open .mbox{transform:scale(1) translateY(0)}
+.mtitle{font-family:'Outfit',sans-serif;font-weight:800;font-size:18px;
+  margin-bottom:20px;display:flex;align-items:center;gap:10px}
+.mfooter{display:flex;gap:10px;justify-content:flex-end;margin-top:20px}
+.pri-btn{background:var(--grad);color:#fff;border:none;
+  padding:11px 22px;border-radius:10px;font-family:'Outfit',sans-serif;
+  font-weight:700;font-size:14px;cursor:pointer;transition:all .18s}
+.pri-btn:hover{transform:translateY(-1px)}
+
+/* ════════════════════════════════
+   TOAST
+════════════════════════════════ */
+.toast{position:fixed;bottom:28px;left:50%;
+  transform:translateX(-50%) translateY(100px);
+  background:var(--text);color:#fff;
+  padding:12px 24px;border-radius:100px;font-size:13px;font-weight:500;
+  z-index:400;white-space:nowrap;box-shadow:var(--sh3);
+  transition:transform .3s cubic-bezier(.4,0,.2,1);
+  display:flex;align-items:center;gap:8px}
+.toast.show{transform:translateX(-50%) translateY(0)}
+.toast.success{background:var(--success)}
+.toast.error{background:var(--error)}
+
+/* ════════════════════════════════
+   EC2 STATUS BADGE (admin)
+════════════════════════════════ */
+.ec2-status{display:inline-flex;align-items:center;gap:6px;
+  background:var(--surface);border:1px solid var(--border);
+  padding:5px 14px;border-radius:100px;font-size:12px;font-weight:600;color:var(--muted)}
+.ec2-dot{width:7px;height:7px;border-radius:50%}
+.ec2-dot.ok{background:var(--success);animation:plz 2s infinite}
+.ec2-dot.err{background:var(--error)}
+
+@media(max-width:420px){
+  .svc-grid{grid-template-columns:1fr}
+  .hero h1{letter-spacing:-1.5px}
+}
+</style>
+</head>
+<body>
+<div class="bg-orbs"></div>
+
+<!-- ══════════════════════════════
+     NAV
+══════════════════════════════ -->
+<nav>
+  <div class="nav-logo">InstaGrow</div>
+  <div class="nav-tabs">
+    <button class="nav-tab active" id="tab-order"  onclick="switchTab('order')">Order</button>
+    <button class="nav-tab"        id="tab-refill" onclick="switchTab('refill')">Refill</button>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════
+     ORDER PAGE
+══════════════════════════════ -->
+<div id="page-order" class="page active">
+  <div class="hero">
+    <div class="hero-chip"><div class="pulse"></div> Instagram Growth Service</div>
+    <h1>Grow Your<br><span class="grd">Instagram</span><br>Today</h1>
+    <p class="hero-p">Get more followers and views on your posts. Refill available within 15 days.</p>
+  </div>
+  <main>
+    <div class="slabel">Choose a service</div>
+    <div class="svc-grid" id="svcGrid"></div>
+
+    <div class="obox" id="obox">
+      <div class="obox-hd">
+        <div class="obox-ico" id="oboxIco">📦</div>
+        <div>
+          <div class="obox-title" id="oboxTitle">Order Details</div>
+          <div class="obox-sub"   id="oboxSub">Fill in the details below</div>
+        </div>
+      </div>
+      <div class="obox-body">
+
+        <div id="f-username" class="fg" style="display:none">
+          <label class="fl">Instagram Username or Profile Link</label>
+          <input class="fi" id="inp-username" type="text"
+            placeholder="@yourhandle or instagram.com/username" />
+        </div>
+
+        <div id="f-link" class="fg" style="display:none">
+          <label class="fl">Reel or Post Link</label>
+          <input class="fi" id="inp-link" type="url"
+            placeholder="https://instagram.com/reel/..." />
+        </div>
+
+        <div class="fg">
+          <label class="fl">Quantity</label>
+          <div class="qrow">
+            <button class="qbtn" onclick="chgQty(-1000)">−</button>
+            <input class="fi qf" id="inp-qty" type="number" value="1000" oninput="recalc()" />
+            <button class="qbtn" onclick="chgQty(1000)">+</button>
+          </div>
+          <div class="qrange">Min: <b id="q-min">10</b> &nbsp;·&nbsp; Max: <b id="q-max">50,000</b></div>
+        </div>
+
+        <div class="dv">Got a promo code?</div>
+
+        <div class="fg">
+          <div class="prow">
+            <input class="fi" id="inp-promo" placeholder="ENTER CODE"
+              style="text-transform:uppercase;letter-spacing:2px"
+              oninput="this.value=this.value.toUpperCase()" />
+            <button class="pbtn" onclick="applyPromo()">Apply</button>
+          </div>
+          <div class="pmsg" id="promo-msg"></div>
+        </div>
+
+        <div class="pbox">
+          <div>
+            <div class="p-lbl">Total Amount</div>
+            <div id="p-strike-row" style="display:none">
+              <span class="p-strike" id="p-orig"></span>
+              <span class="p-saved" id="p-saved"></span>
+            </div>
+          </div>
+          <div class="p-val"><sup>₹</sup><span id="p-val">0</span></div>
+        </div>
+
+        <button class="obtn" id="orderBtn" onclick="placeOrder()">
+          <span>💳</span> Pay &amp; Order Now
+        </button>
+        <div class="trust">
+          <div class="ti"><span>🔒</span> Secure UPI</div>
+          <div class="ti"><span>🛡️</span> 15-Day Refill</div>
+          <div class="ti"><span>✅</span> Real Growth</div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- ══════════════════════════════
+     REFILL PAGE
+══════════════════════════════ -->
+<div id="page-refill" class="page">
+  <div class="refill-hero">
+    <div class="hero-chip"><span>🛡️</span> Refill Guarantee</div>
+    <h1 style="font-family:'Outfit',sans-serif;font-size:clamp(32px,8vw,52px);font-weight:900;letter-spacing:-2px;line-height:1.1;margin-bottom:14px">
+      Need a <span class="grd">Refill?</span>
+    </h1>
+    <p class="hero-p">Just enter your Order ID and we'll top it back up. No questions asked — within 15 days.</p>
+  </div>
+  <div class="refill-main">
+    <div class="rbox">
+      <div class="rbox-hd">
+        <div class="rbox-ico">🛡️</div>
+        <div>
+          <div class="rbox-title">Refill Request</div>
+          <div class="rbox-sub">Available within 15 days of order</div>
+        </div>
+      </div>
+      <div class="rbox-body">
+        <div class="fg">
+          <label class="fl">Your Order ID</label>
+          <input class="fi" id="r-orderid" placeholder="e.g. IG-1234567890"
+            style="font-family:monospace;letter-spacing:1px;font-size:14px" />
+        </div>
+        <div id="r-msg" class="rmsg"></div>
+        <button class="rbtn" id="refillBtn" onclick="submitRefill()">
+          <span>🛡️</span> Request Refill
+        </button>
+        <div class="refill-note">
+          <b>How it works:</b> Enter your Order ID (starts with IG-) from when you placed your order.
+          We verify it's within 15 days and send a top-up automatically.
+          Refills are processed within <b>24–48 hours</b>.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════
+     ADMIN PAGE (hidden, #admin)
+══════════════════════════════ -->
+<div id="page-admin" class="page">
+
+  <div id="adminLogin" class="alogin">
+    <div class="alogin-logo">
+      <div class="lg">InstaGrow</div>
+      <p>Admin Dashboard · Authorized Access Only</p>
+    </div>
+    <div class="acard">
+      <div class="fg">
+        <label class="fl">Admin Password</label>
+        <input class="fi" type="password" id="adminPass"
+          placeholder="Enter password"
+          onkeydown="if(event.key==='Enter')adminLogin()" />
+      </div>
+      <button class="obtn" onclick="adminLogin()" style="margin-top:4px">
+        <span>🔑</span> Sign In
+      </button>
+    </div>
+  </div>
+
+  <div id="adminPanel" class="awrap" style="display:none">
+    <div class="atopbar">
+      <div>
+        <h2>Dashboard</h2>
+        <p>Manage services, promos &amp; settings</p>
+      </div>
+      <button class="sm-btn" onclick="adminLogout()">Sign Out</button>
+    </div>
+
+    <!-- EC2 STATUS -->
+    <div class="ac" id="ec2Card">
+      <div class="ac-hd">
+        <div class="ac-title"><div class="ac-ico">🖥️</div> EC2 Automation Server</div>
+        <div class="ec2-status" id="ec2Status">
+          <div class="ec2-dot err" id="ec2Dot"></div>
+          <span id="ec2Label">Checking...</span>
+        </div>
+      </div>
+      <div style="font-size:12px;color:var(--muted);line-height:1.7">
+        EC2 URL: <code style="color:#e6683c" id="ec2UrlDisplay">—</code><br>
+        Active Orders on EC2: <b id="ec2ActiveCount">—</b>
+      </div>
+    </div>
+
+    <!-- SERVICES -->
+    <div class="ac">
+      <div class="ac-hd">
+        <div class="ac-title"><div class="ac-ico">📦</div> Services</div>
+        <button class="add-btn" onclick="openSvcModal()">+ Add Service</button>
+      </div>
+      <table class="atbl">
+        <thead><tr><th>Service</th><th>Rate</th><th>Min / Max</th><th>Actions</th></tr></thead>
+        <tbody id="tbl-services"></tbody>
+      </table>
+    </div>
+
+    <!-- PROMOS -->
+    <div class="ac">
+      <div class="ac-hd">
+        <div class="ac-title"><div class="ac-ico">🎟️</div> Promo Codes</div>
+        <button class="add-btn" onclick="openPromoModal()">+ Add Code</button>
+      </div>
+      <table class="atbl">
+        <thead><tr><th>Code</th><th>Discount</th><th>Used / Limit</th><th>Service</th><th>Status</th><th>Actions</th></tr></thead>
+        <tbody id="tbl-promos"></tbody>
+      </table>
+    </div>
+
+    <!-- SETTINGS -->
+    <div class="ac">
+      <div class="ac-hd">
+        <div class="ac-title"><div class="ac-ico">⚙️</div> Settings</div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div class="fg">
+          <label class="fl">UPI ID</label>
+          <input class="fi" id="cfg-upi" placeholder="john-7624@ptaxis" />
+        </div>
+        <div class="fg">
+          <label class="fl">Display Name</label>
+          <input class="fi" id="cfg-upiname" placeholder="InstaGrow" />
+        </div>
+      </div>
+      <div style="height:1px;background:var(--border);margin:12px 0"></div>
+      <div class="fg">
+        <label class="fl">Google Sheet Web App URL</label>
+        <input class="fi" id="cfg-sheet" placeholder="https://script.google.com/macros/s/..." />
+        <div style="font-size:11px;color:var(--muted);margin-top:5px">Orders log here automatically.</div>
+      </div>
+      <div style="height:1px;background:var(--border);margin:12px 0"></div>
+      <div class="fg">
+        <label class="fl">EC2 Server URL (your VPS API)</label>
+        <input class="fi" id="cfg-ec2url" placeholder="http://your-ec2-ip:8081" />
+        <div style="font-size:11px;color:var(--muted);margin-top:5px">
+          Your EC2 instance IP + port 8081. Follower orders auto-trigger here.
+        </div>
+      </div>
+      <div class="fg">
+        <label class="fl">EC2 API Secret Key</label>
+        <input class="fi" id="cfg-apikey" type="password"
+          placeholder="Same value as API_SECRET on your server" />
+        <div style="font-size:11px;color:var(--muted);margin-top:5px">
+          Must match the <code>API_SECRET</code> env variable on your EC2.
+        </div>
+      </div>
+      <button class="pri-btn" onclick="saveSettings()" style="margin-top:4px">Save All Settings</button>
+    </div>
+
+    <!-- APPS SCRIPT GUIDE -->
+    <div class="ac" style="border-color:#f0d0c0">
+      <div class="ac-hd" style="margin-bottom:12px">
+        <div class="ac-title"><div class="ac-ico">📋</div> Google Sheets Setup</div>
+        <button class="sm-btn" onclick="copyScript()">📋 Copy Script</button>
+      </div>
+      <div style="margin-bottom:16px">
+        <div class="step"><div class="sn">1</div><div>Go to <a href="https://sheets.google.com" target="_blank" style="color:#e6683c;font-weight:600">sheets.google.com</a> → Create a new spreadsheet</div></div>
+        <div class="step"><div class="sn">2</div><div>Click <b>Extensions → Apps Script</b></div></div>
+        <div class="step"><div class="sn">3</div><div>Delete all code and paste the script below</div></div>
+        <div class="step"><div class="sn">4</div><div>Click <b>Deploy → New Deployment → Web App</b><br>Execute as: <b>Me</b> &nbsp;·&nbsp; Access: <b>Anyone</b></div></div>
+        <div class="step"><div class="sn">5</div><div>Copy the Web App URL → paste in Settings above → Save</div></div>
+      </div>
+      <pre id="scriptCode" class="code-block">function doPost(e) {
+  try {
+    var ss    = SpreadsheetApp.getActiveSpreadsheet();
+    var sheet = ss.getSheetByName('Orders');
+    if (!sheet) {
+      sheet = ss.insertSheet('Orders');
+      sheet.appendRow([
+        'Order ID','Date & Time','Service',
+        'Instagram ID / Link','Quantity',
+        'Amount (Rs)','Promo Code','Status'
+      ]);
+      var hdr = sheet.getRange(1,1,1,8);
+      hdr.setFontWeight('bold');
+      hdr.setBackground('#f09433');
+      hdr.setFontColor('#ffffff');
+    }
+    var data = JSON.parse(e.postData.contents);
+    sheet.appendRow([
+      data.orderId, data.timestamp, data.service,
+      data.target,  data.quantity,  data.amount,
+      data.promo,   data.status
+    ]);
+    return ContentService
+      .createTextOutput(JSON.stringify({result:'ok'}))
+      .setMimeType(ContentService.MimeType.JSON);
+  } catch(err) {
+    return ContentService
+      .createTextOutput(JSON.stringify({result:'error',msg:err.toString()}))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+}</pre>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════
+     MODALS
+══════════════════════════════ -->
+<div class="mbg" id="svcModal">
+  <div class="mbox">
+    <div class="mtitle">📦 <span id="svcModalTitle">Add Service</span></div>
+    <input type="hidden" id="svc-editid" />
+    <div class="fg"><label class="fl">Name</label><input class="fi" id="svc-name" placeholder="Instagram Followers" /></div>
+    <div class="fg"><label class="fl">Emoji</label><input class="fi" id="svc-emoji" placeholder="👥" /></div>
+    <div class="fg"><label class="fl">Input Type</label>
+      <select class="fi" id="svc-type">
+        <option value="username">Username / Profile Link</option>
+        <option value="link">Reel / Post Link</option>
+      </select>
+    </div>
+    <div class="fg"><label class="fl">Price per 1K (₹)</label><input class="fi" type="number" id="svc-price" placeholder="25" /></div>
+    <div class="fg"><label class="fl">Min Qty</label><input class="fi" type="number" id="svc-min" value="10" /></div>
+    <div class="fg"><label class="fl">Max Qty</label><input class="fi" type="number" id="svc-max" value="50000" /></div>
+    <div class="fg"><label class="fl">Badge (optional)</label><input class="fi" id="svc-badge" placeholder="🔥 Popular" /></div>
+    <div class="fg"><label class="fl">Guarantee</label><input class="fi" id="svc-guarantee" placeholder="15 Days Refill" /></div>
+    <div class="fg"><label class="fl">Auto-trigger EC2?</label>
+      <select class="fi" id="svc-autotrigger">
+        <option value="yes">Yes — send to EC2 automation</option>
+        <option value="no">No — manual / Reels Views</option>
+      </select>
+    </div>
+    <div class="mfooter">
+      <button class="sm-btn" onclick="closeModal('svcModal')">Cancel</button>
+      <button class="pri-btn" onclick="saveSvc()">Save Service</button>
+    </div>
+  </div>
+</div>
+
+<div class="mbg" id="promoModal">
+  <div class="mbox">
+    <div class="mtitle">🎟️ <span id="promoModalTitle">Add Promo Code</span></div>
+    <input type="hidden" id="promo-editid" />
+    <div class="fg"><label class="fl">Code</label>
+      <input class="fi" id="promo-code" placeholder="SAVE20"
+        style="text-transform:uppercase;letter-spacing:2px"
+        oninput="this.value=this.value.toUpperCase()" /></div>
+    <div class="fg"><label class="fl">Discount Type</label>
+      <select class="fi" id="promo-type" onchange="togglePromoType()">
+        <option value="percent">Percentage Off (%)</option>
+        <option value="fixed">Fixed Rate Override (₹ per 1K)</option>
+      </select>
+    </div>
+    <div class="fg" id="pct-grp"><label class="fl">Discount %</label><input class="fi" type="number" id="promo-pct" placeholder="20" min="1" max="100" /></div>
+    <div class="fg" id="fix-grp" style="display:none"><label class="fl">Fixed ₹ per 1K</label><input class="fi" type="number" id="promo-fix" placeholder="20" /></div>
+    <div class="fg"><label class="fl">Restrict to Service (optional)</label>
+      <select class="fi" id="promo-svcid"><option value="">All Services</option></select>
+    </div>
+    <div class="fg"><label class="fl">Usage Limit (0 = unlimited)</label><input class="fi" type="number" id="promo-limit" placeholder="100" /></div>
+    <div class="fg"><label class="fl">Status</label>
+      <select class="fi" id="promo-status">
+        <option value="active">Active</option>
+        <option value="inactive">Inactive</option>
+      </select>
+    </div>
+    <div class="mfooter">
+      <button class="sm-btn" onclick="closeModal('promoModal')">Cancel</button>
+      <button class="pri-btn" onclick="savePromo()">Save Code</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- ══════════════════════════════
+     JAVASCRIPT
+══════════════════════════════ -->
+<script>
+// ── DATA ──────────────────────────────────────────────────────
+const ADMIN_PASS = 'admin123';
+const D = (k,d) => { try{return JSON.parse(localStorage.getItem(k))??d}catch{return d} };
+const S = (k,v) => localStorage.setItem(k,JSON.stringify(v));
+
+const DEF_SERVICES = [
+  { id:1, name:'Instagram Followers', emoji:'👥', type:'username', price:25, min:10,  max:50000, badge:'⭐ Popular', guarantee:'15 Days Refill', autoTrigger:'yes' },
+  { id:2, name:'Reels Views',          emoji:'🎬', type:'link',     price:2,  min:100, max:50000, badge:'🔥 Cheapest', guarantee:'30 Days Refill', autoTrigger:'no'  },
+];
+const DEF_PROMOS = [
+  { id:1, code:'BOOST10', discount:10,  fixedPrice:null, serviceId:null, limit:100, used:0, status:'active' },
+  { id:2, code:'SAVE5',   discount:0,   fixedPrice:20,   serviceId:1,    limit:200, used:0, status:'active' },
+];
+const DEF_UPI = { id:'john-7624@ptaxis', name:'InstaGrow' };
+
+const getServices = () => D('bg_services', DEF_SERVICES);
+const getPromos   = () => D('bg_promos',   DEF_PROMOS);
+const getUpi      = () => D('bg_upi',      DEF_UPI);
+const getEC2      = () => D('bg_ec2',      { url:'', apiKey:'' });
+
+// ── TAB / PAGE ────────────────────────────────────────────────
+function switchTab(tab) {
+  ['order','refill'].forEach(t => {
+    document.getElementById('page-'+t).classList.toggle('active', t===tab);
+    document.getElementById('tab-'+t).classList.toggle('active', t===tab);
+  });
+}
+function showAdmin() {
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-admin').classList.add('active');
+}
+function checkRoute() {
+  if (location.hash==='#admin' || location.pathname.endsWith('/admin')) showAdmin();
+}
+window.addEventListener('hashchange', checkRoute);
+
+// ── SERVICE GRID ──────────────────────────────────────────────
+function renderServices() {
+  document.getElementById('svcGrid').innerHTML = getServices().map(s=>`
+    <div class="svc-card" id="sc_${s.id}" onclick="selectSvc(${s.id})">
+      ${s.badge?`<div class="svc-badge">${s.badge}</div>`:''}
+      <div class="svc-tick">✓</div>
+      <div class="svc-icon">${s.emoji}</div>
+      <div class="svc-name">${s.name}</div>
+      <div class="svc-rate">₹${s.price} / 1K</div>
+    </div>`).join('');
+}
+
+let selSvc=null, selPromo=null;
+
+function selectSvc(id) {
+  const svcs = getServices();
+  selSvc = svcs.find(s=>s.id===id);
+  document.querySelectorAll('.svc-card').forEach(c=>c.classList.remove('sel'));
+  document.getElementById('sc_'+id).classList.add('sel');
+
+  const obox = document.getElementById('obox');
+  obox.style.display = 'block';
+  obox.scrollIntoView({behavior:'smooth',block:'nearest'});
+
+  document.getElementById('f-username').style.display = selSvc.type==='username'?'block':'none';
+  document.getElementById('f-link').style.display     = selSvc.type==='link'?'block':'none';
+  document.getElementById('oboxIco').textContent   = selSvc.emoji;
+  document.getElementById('oboxTitle').textContent = selSvc.name;
+  document.getElementById('oboxSub').textContent   = '₹'+selSvc.price+' per 1K · '+selSvc.guarantee;
+
+  const qi=document.getElementById('inp-qty');
+  qi.min=selSvc.min; qi.max=selSvc.max;
+  qi.value=Math.max(1000,selSvc.min);
+  document.getElementById('q-min').textContent=selSvc.min.toLocaleString('en-IN');
+  document.getElementById('q-max').textContent=selSvc.max.toLocaleString('en-IN');
+
+  selPromo=null;
+  document.getElementById('inp-promo').value='';
+  document.getElementById('promo-msg').textContent='';
+  document.getElementById('promo-msg').className='pmsg';
+  recalc();
+}
+
+function chgQty(d) {
+  const qi=document.getElementById('inp-qty');
+  const mn=selSvc?.min??10, mx=selSvc?.max??50000;
+  qi.value=Math.max(mn,Math.min(mx,(parseInt(qi.value)||0)+d));
+  recalc();
+}
+
+function recalc() {
+  if(!selSvc) return;
+  const qty=parseInt(document.getElementById('inp-qty').value)||0;
+  const base=(qty/1000)*selSvc.price;
+  let fin=base;
+  document.getElementById('p-strike-row').style.display='none';
+  if(selPromo) {
+    if(selPromo.fixedPrice!=null) {
+      fin=(qty/1000)*selPromo.fixedPrice;
+      document.getElementById('p-orig').textContent='₹'+base.toFixed(2);
+      document.getElementById('p-saved').textContent=' ₹'+(base-fin).toFixed(2)+' saved';
+      document.getElementById('p-strike-row').style.display='block';
+    } else if(selPromo.discount>0) {
+      fin=base*(1-selPromo.discount/100);
+      document.getElementById('p-orig').textContent='₹'+base.toFixed(2);
+      document.getElementById('p-saved').textContent=' '+selPromo.discount+'% off';
+      document.getElementById('p-strike-row').style.display='block';
+    }
+  }
+  document.getElementById('p-val').textContent=fin.toFixed(2);
+}
+
+// ── PROMO ─────────────────────────────────────────────────────
+function applyPromo() {
+  const code=document.getElementById('inp-promo').value.trim().toUpperCase();
+  const el=document.getElementById('promo-msg');
+  const set=(ok,t)=>{el.className='pmsg '+(ok?'ok':'err');el.textContent=t};
+  const promos=getPromos();
+  const p=promos.find(x=>x.code===code&&x.status==='active');
+  if(!p){selPromo=null;set(false,'✗ Invalid or inactive code.');recalc();return}
+  if(p.limit>0&&p.used>=p.limit){selPromo=null;set(false,'✗ Code limit reached.');recalc();return}
+  if(p.serviceId&&selSvc&&p.serviceId!==selSvc.id){
+    selPromo=null;
+    const sn=getServices().find(s=>s.id===p.serviceId);
+    set(false,'✗ Only valid for '+(sn?sn.name:'another service')+'.');recalc();return;
+  }
+  selPromo=p;
+  set(true,p.fixedPrice!=null?'✓ Special rate ₹'+p.fixedPrice+'/1K':'✓ '+p.discount+'% off applied!');
+  recalc();
+}
+
+// ── PLACE ORDER ───────────────────────────────────────────────
+async function placeOrder() {
+  if(!selSvc) return toast('Select a service first','error');
+  const qty=parseInt(document.getElementById('inp-qty').value);
+  if(qty<selSvc.min||qty>selSvc.max) return toast('Quantity: '+selSvc.min+'–'+selSvc.max,'error');
+
+  const target = selSvc.type==='username'
+    ? document.getElementById('inp-username').value.trim()
+    : document.getElementById('inp-link').value.trim();
+  if(!target) return toast(selSvc.type==='username'?'Enter Instagram username':'Enter reel link','error');
+
+  const amount=parseFloat(document.getElementById('p-val').textContent);
+  if(!amount||amount<=0) return toast('Invalid amount','error');
+
+  const orderId='IG-'+Date.now();
+  const now=new Date().toLocaleString('en-IN',{timeZone:'Asia/Kolkata'});
+
+  const btn=document.getElementById('orderBtn');
+  btn.disabled=true;
+  btn.innerHTML='<span>⏳</span> Processing...';
+
+  // 1 — GOOGLE SHEETS
+  const sheetUrl=D('bg_sheeturl','');
+  if(sheetUrl) {
+    try {
+      await fetch(sheetUrl,{method:'POST',mode:'no-cors',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({orderId,timestamp:now,service:selSvc.name,
+          target,quantity:qty,amount:amount.toFixed(2),
+          promo:selPromo?selPromo.code:'—',status:'Pending Payment'})});
+    } catch(e){}
+  }
+
+  // 2 — EC2 AUTO-TRIGGER (only for Followers / autoTrigger=yes)
+  if(selSvc.autoTrigger==='yes') {
+    const ec2=getEC2();
+    if(ec2.url && ec2.apiKey) {
+      try {
+        const r=await fetch(ec2.url+'/api/trigger',{
+          method:'POST',
+          headers:{'Authorization':'Bearer '+ec2.apiKey,'Content-Type':'application/json'},
+          body:JSON.stringify({api_key:ec2.apiKey,orderId,
+            username:target.replace('@','').split('/').pop(),
+            quantity:qty,amount:amount.toFixed(2),timestamp:now})
+        });
+        const d=await r.json();
+        if(d.success) console.log('[EC2] Order queued:',d.orderId);
+        else console.warn('[EC2] Error:',d.error);
+      } catch(e){ console.warn('[EC2] Unreachable:',e.message); }
+    }
+  }
+
+  // 3 — INCREMENT PROMO
+  if(selPromo){
+    const ps=getPromos();
+    const i=ps.findIndex(p=>p.id===selPromo.id);
+    if(i!==-1){ps[i].used++;S('bg_promos',ps);}
+  }
+
+  // 4 — UPI PAYMENT
+  const upi=getUpi();
+  const note=encodeURIComponent(orderId+' | '+selSvc.name+' x'+qty);
+  const upiUrl='upi://pay?pa='+encodeURIComponent(upi.id)
+    +'&pn='+encodeURIComponent(upi.name||'InstaGrow')
+    +'&am='+amount.toFixed(2)+'&cu=INR&tn='+note;
+  const a=document.createElement('a'); a.href=upiUrl; a.click();
+
+  btn.disabled=false;
+  btn.innerHTML='<span>💳</span> Pay & Order Now';
+  toast('✓ Opening payment ₹'+amount.toFixed(2),'success');
+}
+
+// ── REFILL ────────────────────────────────────────────────────
+async function submitRefill() {
+  const orderId=document.getElementById('r-orderid').value.trim();
+  const msgEl=document.getElementById('r-msg');
+  const show=(ok,t)=>{
+    msgEl.style.display='block';
+    msgEl.className='rmsg '+(ok?'ok':'err');
+    msgEl.textContent=t;
+  };
+
+  if(!orderId) return show(false,'✗ Please enter your Order ID.');
+  if(!orderId.startsWith('IG-') && !orderId.startsWith('ig-'))
+    return show(false,'✗ Order ID should start with IG- (e.g. IG-1234567890)');
+
+  const btn=document.getElementById('refillBtn');
+  btn.disabled=true;
+  btn.innerHTML='<span>⏳</span> Checking order...';
+
+  // Try to verify via EC2
+  const ec2=getEC2();
+  let orderFound=false, orderStatus=null, orderData=null;
+
+  if(ec2.url && ec2.apiKey) {
+    try {
+      const r=await fetch(ec2.url+'/api/status/'+encodeURIComponent(orderId),{
+        headers:{'Authorization':'Bearer '+ec2.apiKey}
+      });
+      if(r.ok) {
+        orderData=await r.json();
+        orderFound=true;
+        orderStatus=orderData.status;
+      }
+    } catch(e){}
+  }
+
+  // Log refill to Google Sheets
+  const sheetUrl=D('bg_sheeturl','');
+  if(sheetUrl) {
+    try {
+      await fetch(sheetUrl,{method:'POST',mode:'no-cors',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({
+          orderId:'REFILL-'+Date.now(),
+          timestamp:new Date().toLocaleString('en-IN',{timeZone:'Asia/Kolkata'}),
+          service:'REFILL REQUEST',
+          target:orderId,
+          quantity:'—',amount:'0',promo:'—',
+          status:'Refill Requested for '+orderId
+        })});
+    } catch(e){}
+  }
+
+  // Trigger refill on EC2
+  if(ec2.url && ec2.apiKey) {
+    try {
+      await fetch(ec2.url+'/api/retry/'+encodeURIComponent(orderId),{
+        method:'POST',
+        headers:{'Authorization':'Bearer '+ec2.apiKey,'Content-Type':'application/json'},
+        body:JSON.stringify({api_key:ec2.apiKey})
+      });
+    } catch(e){}
+  }
+
+  btn.disabled=false;
+  btn.innerHTML='<span>🛡️</span> Request Refill';
+
+  show(true,
+    '✓ Refill request submitted for '+orderId+'!\n' +
+    'We will process your refill within 24–48 hours. ' +
+    (orderFound ? 'Order status: '+orderStatus+'.' : '')
+  );
+  document.getElementById('r-orderid').value='';
+}
+
+// ── ADMIN ─────────────────────────────────────────────────────
+function adminLogin() {
+  if(document.getElementById('adminPass').value===ADMIN_PASS) {
+    document.getElementById('adminLogin').style.display='none';
+    document.getElementById('adminPanel').style.display='block';
+    renderAdminServices(); renderAdminPromos(); loadSettings(); checkEc2();
+  } else toast('Wrong password','error');
+}
+function adminLogout() {
+  document.getElementById('adminLogin').style.display='block';
+  document.getElementById('adminPanel').style.display='none';
+  document.getElementById('adminPass').value='';
+}
+
+function renderAdminServices() {
+  document.getElementById('tbl-services').innerHTML=getServices().map(s=>`
+    <tr>
+      <td>${s.emoji} ${s.name} ${s.autoTrigger==='yes'?'<span style="font-size:10px;color:#e6683c;font-weight:700">[AUTO]</span>':''}</td>
+      <td>₹${s.price}/1K</td>
+      <td>${s.min.toLocaleString()}–${s.max.toLocaleString()}</td>
+      <td style="display:flex;gap:6px">
+        <button class="sm-btn" onclick="openSvcModal(${s.id})">Edit</button>
+        <button class="sm-btn del" onclick="delSvc(${s.id})">Del</button>
+      </td>
+    </tr>`).join('');
+}
+
+function renderAdminPromos() {
+  const svcs=getServices();
+  document.getElementById('tbl-promos').innerHTML=getPromos().map(p=>{
+    const disc=p.fixedPrice!=null?'₹'+p.fixedPrice+'/1K':p.discount+'% off';
+    const sn=p.serviceId?(svcs.find(s=>s.id===p.serviceId)?.name||'—'):'All';
+    return `<tr>
+      <td>${p.code}</td><td>${disc}</td>
+      <td>${p.used}/${p.limit===0?'∞':p.limit}</td>
+      <td style="color:var(--muted);font-size:12px">${sn}</td>
+      <td><span class="tag ${p.status}">${p.status}</span></td>
+      <td style="display:flex;gap:6px">
+        <button class="sm-btn" onclick="openPromoModal(${p.id})">Edit</button>
+        <button class="sm-btn del" onclick="delPromo(${p.id})">Del</button>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+function loadSettings() {
+  const u=getUpi(); const ec2=getEC2();
+  document.getElementById('cfg-upi').value     =u.id||'';
+  document.getElementById('cfg-upiname').value =u.name||'';
+  document.getElementById('cfg-sheet').value   =D('bg_sheeturl','')||'';
+  document.getElementById('cfg-ec2url').value  =ec2.url||'';
+  document.getElementById('cfg-apikey').value  =ec2.apiKey||'';
+}
+function saveSettings() {
+  S('bg_upi',     {id:document.getElementById('cfg-upi').value.trim(),
+                    name:document.getElementById('cfg-upiname').value.trim()});
+  S('bg_sheeturl', document.getElementById('cfg-sheet').value.trim());
+  S('bg_ec2',     {url: document.getElementById('cfg-ec2url').value.trim().replace(/\/$/,''),
+                    apiKey:document.getElementById('cfg-apikey').value.trim()});
+  toast('Settings saved ✓','success');
+  checkEc2();
+}
+
+// ── EC2 STATUS CHECK ──────────────────────────────────────────
+async function checkEc2() {
+  const ec2=getEC2();
+  const dot=document.getElementById('ec2Dot');
+  const lbl=document.getElementById('ec2Label');
+  const urlDisp=document.getElementById('ec2UrlDisplay');
+  urlDisp.textContent=ec2.url||'Not configured';
+  if(!ec2.url){dot.className='ec2-dot err';lbl.textContent='Not configured';return}
+  try {
+    const r=await fetch(ec2.url+'/health',{signal:AbortSignal.timeout(4000)});
+    if(r.ok){
+      dot.className='ec2-dot ok'; lbl.textContent='Online ✓';
+      // Try to get order count
+      try {
+        const r2=await fetch(ec2.url+'/api/orders',{
+          headers:{'Authorization':'Bearer '+ec2.apiKey}
+        });
+        const orders=await r2.json();
+        const active=orders.filter(o=>['Running','Queued'].includes(o.status)).length;
+        document.getElementById('ec2ActiveCount').textContent=active+' active';
+      } catch(e){document.getElementById('ec2ActiveCount').textContent='—'}
+    } else { dot.className='ec2-dot err'; lbl.textContent='Error '+r.status; }
+  } catch(e){dot.className='ec2-dot err'; lbl.textContent='Offline / Unreachable';}
+}
+
+// ── SERVICE MODAL ─────────────────────────────────────────────
+function openSvcModal(id) {
+  const s=id?getServices().find(x=>x.id===id):null;
+  document.getElementById('svcModalTitle').textContent=id?'Edit Service':'Add Service';
+  document.getElementById('svc-editid').value  =id||'';
+  document.getElementById('svc-name').value    =s?.name||'';
+  document.getElementById('svc-emoji').value   =s?.emoji||'📦';
+  document.getElementById('svc-type').value    =s?.type||'username';
+  document.getElementById('svc-price').value   =s?.price||'';
+  document.getElementById('svc-min').value     =s?.min||10;
+  document.getElementById('svc-max').value     =s?.max||50000;
+  document.getElementById('svc-badge').value   =s?.badge||'';
+  document.getElementById('svc-guarantee').value=s?.guarantee||'15 Days Refill';
+  document.getElementById('svc-autotrigger').value=s?.autoTrigger||'no';
+  openModal('svcModal');
+}
+function saveSvc() {
+  const id=parseInt(document.getElementById('svc-editid').value)||null;
+  const svcs=getServices();
+  const obj={
+    id:id||Date.now(),
+    name:      document.getElementById('svc-name').value.trim(),
+    emoji:     document.getElementById('svc-emoji').value.trim()||'📦',
+    type:      document.getElementById('svc-type').value,
+    price:     parseFloat(document.getElementById('svc-price').value),
+    min:       parseInt(document.getElementById('svc-min').value),
+    max:       parseInt(document.getElementById('svc-max').value),
+    badge:     document.getElementById('svc-badge').value.trim(),
+    guarantee: document.getElementById('svc-guarantee').value.trim(),
+    autoTrigger:document.getElementById('svc-autotrigger').value,
+  };
+  if(!obj.name||isNaN(obj.price)) return toast('Name and price required','error');
+  if(id){const i=svcs.findIndex(s=>s.id===id);svcs[i]=obj;}else{svcs.push(obj);}
+  S('bg_services',svcs);
+  closeModal('svcModal'); renderAdminServices(); renderServices();
+  toast('Service saved ✓','success');
+}
+function delSvc(id){
+  if(!confirm('Delete this service?')) return;
+  S('bg_services',getServices().filter(s=>s.id!==id));
+  renderAdminServices(); renderServices(); toast('Deleted','success');
+}
+
+// ── PROMO MODAL ───────────────────────────────────────────────
+function togglePromoType(){
+  const t=document.getElementById('promo-type').value;
+  document.getElementById('pct-grp').style.display=t==='percent'?'block':'none';
+  document.getElementById('fix-grp').style.display=t==='fixed'?'block':'none';
+}
+function openPromoModal(id){
+  const p=id?getPromos().find(x=>x.id===id):null;
+  document.getElementById('promoModalTitle').textContent=id?'Edit Code':'Add Promo Code';
+  document.getElementById('promo-editid').value=id||'';
+  document.getElementById('promo-code').value=p?.code||'';
+  document.getElementById('promo-limit').value=p?.limit??100;
+  document.getElementById('promo-status').value=p?.status||'active';
+  const sel=document.getElementById('promo-svcid');
+  sel.innerHTML='<option value="">All Services</option>'+
+    getServices().map(s=>`<option value="${s.id}">${s.emoji} ${s.name}</option>`).join('');
+  if(p?.fixedPrice!=null){
+    document.getElementById('promo-type').value='fixed';
+    document.getElementById('promo-fix').value=p.fixedPrice;
+    document.getElementById('promo-pct').value='';
+    sel.value=p.serviceId||'';
+  } else {
+    document.getElementById('promo-type').value='percent';
+    document.getElementById('promo-pct').value=p?.discount||'';
+    document.getElementById('promo-fix').value='';
+    sel.value='';
+  }
+  togglePromoType();
+  openModal('promoModal');
+}
+function savePromo(){
+  const id=parseInt(document.getElementById('promo-editid').value)||null;
+  const pros=getPromos();
+  const type=document.getElementById('promo-type').value;
+  const obj={
+    id:id||Date.now(),
+    code:       document.getElementById('promo-code').value.trim().toUpperCase(),
+    discount:   type==='percent'?parseInt(document.getElementById('promo-pct').value):0,
+    fixedPrice: type==='fixed'?parseFloat(document.getElementById('promo-fix').value):null,
+    serviceId:  parseInt(document.getElementById('promo-svcid').value)||null,
+    limit:      parseInt(document.getElementById('promo-limit').value)||0,
+    used:       id?(pros.find(p=>p.id===id)?.used||0):0,
+    status:     document.getElementById('promo-status').value,
+  };
+  if(!obj.code) return toast('Code is required','error');
+  if(id){const i=pros.findIndex(p=>p.id===id);pros[i]=obj;}else{pros.push(obj);}
+  S('bg_promos',pros);
+  closeModal('promoModal'); renderAdminPromos();
+  toast('Promo saved ✓','success');
+}
+function delPromo(id){
+  if(!confirm('Delete this code?')) return;
+  S('bg_promos',getPromos().filter(p=>p.id!==id));
+  renderAdminPromos(); toast('Deleted','success');
+}
+
+function copyScript(){
+  navigator.clipboard.writeText(document.getElementById('scriptCode').textContent)
+    .then(()=>toast('Script copied!','success'));
+}
+
+// ── MODAL HELPERS ─────────────────────────────────────────────
+function openModal(id){document.getElementById(id).classList.add('open')}
+function closeModal(id){document.getElementById(id).classList.remove('open')}
+document.querySelectorAll('.mbg').forEach(el=>
+  el.addEventListener('click',e=>{if(e.target===el)el.classList.remove('open')}));
+
+// ── TOAST ─────────────────────────────────────────────────────
+function toast(msg,type=''){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.className='toast '+type+' show';
+  setTimeout(()=>t.classList.remove('show'),2800);
+}
+
+// ── INIT ──────────────────────────────────────────────────────
+renderServices();
+checkRoute();
+</script>
+</body>
+</html>
