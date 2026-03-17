@@ -1,0 +1,1310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>InstaGrow – Instagram Growth Services</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════
+   ROOT & RESET
+═══════════════════════════════════════════ */
+:root {
+  --ig1: #f09433; --ig2: #e6683c; --ig3: #dc2743; --ig4: #cc2366; --ig5: #bc1888;
+  --grad: linear-gradient(135deg, var(--ig1), var(--ig2), var(--ig3), var(--ig4), var(--ig5));
+  --grad-soft: linear-gradient(135deg, #ffecd2, #fcb69f, #ff9a9e, #fecfef, #feada6);
+  --bg: #fafafa;
+  --white: #ffffff;
+  --surface: #f5f5f7;
+  --card: #ffffff;
+  --border: #e8e8ed;
+  --border2: #d0d0d8;
+  --text: #1a1a2e;
+  --text2: #3a3a4a;
+  --muted: #8888a0;
+  --muted2: #b0b0c0;
+  --success: #00c97d;
+  --error: #ff3b5c;
+  --shadow-sm: 0 2px 8px rgba(0,0,0,0.06);
+  --shadow: 0 8px 32px rgba(0,0,0,0.09);
+  --shadow-lg: 0 20px 60px rgba(0,0,0,0.12);
+  --radius: 20px;
+  --radius-sm: 12px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ═══════════════════════════════════════════
+   BG DECORATION
+═══════════════════════════════════════════ */
+.bg-deco {
+  position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden;
+}
+.bg-deco::before {
+  content: '';
+  position: absolute; top: -200px; right: -200px;
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, #fc98b820 0%, transparent 65%);
+  border-radius: 50%;
+}
+.bg-deco::after {
+  content: '';
+  position: absolute; bottom: -200px; left: -150px;
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, #f0943320 0%, transparent 65%);
+  border-radius: 50%;
+}
+
+/* ═══════════════════════════════════════════
+   NAV
+═══════════════════════════════════════════ */
+nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(250,250,250,0.82);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border-bottom: 1px solid var(--border);
+  height: 64px;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 24px;
+}
+.nav-logo {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 800; font-size: 22px;
+  background: var(--grad);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -0.5px;
+}
+.nav-pill {
+  display: flex; align-items: center; gap: 6px;
+  background: var(--surface); border: 1px solid var(--border);
+  padding: 6px 14px; border-radius: 100px;
+  font-size: 12px; font-weight: 500; color: var(--muted);
+}
+.nav-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--success);
+  animation: breathe 2s ease-in-out infinite;
+}
+@keyframes breathe { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.6;transform:scale(1.3)} }
+
+/* ═══════════════════════════════════════════
+   PAGES
+═══════════════════════════════════════════ */
+.page { display: none; }
+.page.active { display: block; animation: pageIn 0.35s cubic-bezier(.4,0,.2,1); }
+@keyframes pageIn { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
+
+/* ═══════════════════════════════════════════
+   HERO
+═══════════════════════════════════════════ */
+.hero {
+  text-align: center;
+  padding: 56px 24px 40px;
+  position: relative; z-index: 1;
+}
+.hero-eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--white); border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+  padding: 6px 16px; border-radius: 100px;
+  font-size: 12px; font-weight: 600; color: var(--muted);
+  margin-bottom: 22px; letter-spacing: 0.3px;
+}
+.hero-eyebrow .live-dot {
+  width: 8px; height: 8px; border-radius: 50%; background: var(--success);
+  animation: breathe 2s ease-in-out infinite;
+}
+.hero h1 {
+  font-family: 'Outfit', sans-serif;
+  font-size: clamp(34px, 8vw, 60px);
+  font-weight: 900;
+  line-height: 1.08;
+  letter-spacing: -2px;
+  margin-bottom: 16px;
+  color: var(--text);
+}
+.hero h1 .grad-text {
+  background: var(--grad);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.hero-sub {
+  color: var(--muted);
+  font-size: 15px; font-weight: 400;
+  max-width: 380px; margin: 0 auto 32px;
+  line-height: 1.6;
+}
+.hero-stats {
+  display: inline-flex; gap: 0; background: var(--white);
+  border: 1px solid var(--border); border-radius: var(--radius);
+  box-shadow: var(--shadow-sm); overflow: hidden; margin-bottom: 8px;
+}
+.stat-item {
+  padding: 14px 24px; text-align: center;
+  border-right: 1px solid var(--border);
+}
+.stat-item:last-child { border-right: none; }
+.stat-num {
+  font-family: 'Outfit', sans-serif;
+  font-size: 22px; font-weight: 800; color: var(--text);
+  line-height: 1;
+}
+.stat-label { font-size: 10px; color: var(--muted); margin-top: 3px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; }
+
+/* ═══════════════════════════════════════════
+   MAIN CONTENT
+═══════════════════════════════════════════ */
+main { max-width: 560px; margin: 0 auto; padding: 0 16px 80px; position: relative; z-index: 1; }
+
+/* ═══════════════════════════════════════════
+   SECTION LABEL
+═══════════════════════════════════════════ */
+.section-label {
+  font-family: 'Outfit', sans-serif;
+  font-size: 11px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 1.2px;
+  color: var(--muted); margin-bottom: 12px;
+  display: flex; align-items: center; gap: 8px;
+}
+.section-label::after {
+  content: ''; flex: 1; height: 1px; background: var(--border);
+}
+
+/* ═══════════════════════════════════════════
+   SERVICE CARDS
+═══════════════════════════════════════════ */
+.service-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 24px; }
+.service-card {
+  position: relative; overflow: hidden;
+  background: var(--white);
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px 16px 16px;
+  cursor: pointer;
+  transition: all 0.22s cubic-bezier(.4,0,.2,1);
+  box-shadow: var(--shadow-sm);
+}
+.service-card::after {
+  content: ''; position: absolute; inset: 0;
+  background: var(--grad); opacity: 0;
+  transition: opacity 0.22s;
+  pointer-events: none;
+}
+.service-card:hover { transform: translateY(-3px); box-shadow: var(--shadow); border-color: #e6683c60; }
+.service-card.selected {
+  border-color: transparent;
+  box-shadow: 0 0 0 2px #e6683c, var(--shadow);
+  transform: translateY(-2px);
+}
+.service-card.selected::after { opacity: 0.07; }
+.svc-icon-wrap {
+  width: 48px; height: 48px; border-radius: 14px;
+  background: var(--grad);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px; margin-bottom: 12px;
+  box-shadow: 0 4px 14px #dc274330;
+}
+.svc-name {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700; font-size: 14px;
+  color: var(--text); margin-bottom: 4px;
+  line-height: 1.2;
+}
+.svc-price {
+  font-family: 'Outfit', sans-serif;
+  font-size: 13px; font-weight: 600;
+  background: var(--grad);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.svc-badge {
+  position: absolute; top: 12px; right: 12px;
+  font-size: 9px; font-weight: 700;
+  background: var(--grad); color: #fff;
+  padding: 3px 8px; border-radius: 100px;
+  letter-spacing: 0.3px;
+}
+.svc-check {
+  position: absolute; top: 12px; right: 12px;
+  width: 20px; height: 20px; border-radius: 50%;
+  background: var(--grad); display: none;
+  align-items: center; justify-content: center;
+  font-size: 11px; color: white;
+}
+.service-card.selected .svc-check { display: flex; }
+.service-card.selected .svc-badge { display: none; }
+
+/* ═══════════════════════════════════════════
+   ORDER PANEL
+═══════════════════════════════════════════ */
+.order-panel {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  display: none;
+  animation: pageIn 0.3s ease;
+}
+.order-panel-header {
+  padding: 18px 20px;
+  background: linear-gradient(135deg, #fff5f0, #fff0f5);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; gap: 12px;
+}
+.order-panel-icon {
+  width: 38px; height: 38px; border-radius: 12px;
+  background: var(--grad);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+}
+.order-panel-title { font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 16px; }
+.order-panel-sub { font-size: 12px; color: var(--muted); }
+.order-panel-body { padding: 20px; }
+
+/* ═══════════════════════════════════════════
+   FORM
+═══════════════════════════════════════════ */
+.fgroup { margin-bottom: 16px; }
+.flabel {
+  display: block; font-size: 11px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.8px;
+  color: var(--muted); margin-bottom: 7px;
+}
+.finput {
+  width: 100%;
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  color: var(--text);
+  border-radius: var(--radius-sm);
+  padding: 13px 16px;
+  font-size: 15px;
+  font-family: 'Inter', sans-serif;
+  outline: none;
+  transition: border-color 0.18s, box-shadow 0.18s, background 0.18s;
+  appearance: none;
+}
+.finput:focus {
+  border-color: #e6683c;
+  background: var(--white);
+  box-shadow: 0 0 0 4px #e6683c14;
+}
+.finput::placeholder { color: var(--muted2); }
+.finput option { background: var(--white); color: var(--text); }
+
+/* ═══════════════════════════════════════════
+   QUANTITY STEPPER
+═══════════════════════════════════════════ */
+.qty-row { display: flex; align-items: center; gap: 10px; }
+.qty-btn {
+  width: 44px; height: 44px; flex-shrink: 0;
+  border-radius: 12px;
+  background: var(--surface); border: 1.5px solid var(--border);
+  color: var(--text); font-size: 22px; font-weight: 300;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  transition: all 0.15s; line-height: 1;
+}
+.qty-btn:hover { border-color: #e6683c; background: #fff5f0; color: #e6683c; }
+.qty-btn:active { transform: scale(0.94); }
+.qty-field { flex: 1; text-align: center; font-weight: 600; font-size: 18px; }
+.qty-range {
+  display: flex; justify-content: space-between;
+  font-size: 11px; color: var(--muted); margin-top: 6px;
+  padding: 0 4px;
+}
+.qty-range span { font-weight: 600; color: var(--text2); }
+
+/* ═══════════════════════════════════════════
+   INFO CHIPS
+═══════════════════════════════════════════ */
+.chips { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 18px; }
+.chip {
+  display: flex; align-items: center; gap: 5px;
+  background: var(--surface); border: 1px solid var(--border);
+  padding: 5px 12px; border-radius: 100px;
+  font-size: 11px; color: var(--text2); font-weight: 500;
+}
+.chip-icon { font-size: 12px; }
+
+/* ═══════════════════════════════════════════
+   DIVIDER
+═══════════════════════════════════════════ */
+.divider {
+  display: flex; align-items: center; gap: 12px;
+  margin: 18px 0; font-size: 11px; color: var(--muted2); font-weight: 500;
+}
+.divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+/* ═══════════════════════════════════════════
+   PROMO
+═══════════════════════════════════════════ */
+.promo-row { display: flex; gap: 8px; }
+.promo-row .finput { flex: 1; letter-spacing: 1px; font-weight: 600; }
+.promo-btn {
+  background: var(--grad); color: #fff; border: none;
+  padding: 13px 18px; border-radius: var(--radius-sm);
+  font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 13px;
+  cursor: pointer; white-space: nowrap;
+  transition: all 0.18s; box-shadow: 0 4px 14px #dc274320;
+}
+.promo-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 20px #dc274335; }
+.promo-msg { font-size: 12px; font-weight: 500; margin-top: 7px; display: flex; align-items: center; gap: 5px; }
+.promo-msg.ok { color: var(--success); }
+.promo-msg.err { color: var(--error); }
+
+/* ═══════════════════════════════════════════
+   PRICE BOX
+═══════════════════════════════════════════ */
+.price-box {
+  background: linear-gradient(135deg, #fff5f0 0%, #fff0f8 100%);
+  border: 1.5px solid #f0d0c0;
+  border-radius: var(--radius);
+  padding: 18px 20px;
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 16px;
+}
+.price-left {}
+.price-tag { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: var(--muted); margin-bottom: 4px; }
+.price-strike { font-size: 13px; color: var(--muted); text-decoration: line-through; }
+.price-saved { font-size: 12px; color: var(--success); font-weight: 700; }
+.price-right {
+  font-family: 'Outfit', sans-serif; font-weight: 900;
+  font-size: 36px; line-height: 1;
+  background: var(--grad);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.price-right sup { font-size: 18px; font-weight: 700; vertical-align: top; margin-top: 5px; display: inline-block; }
+
+/* ═══════════════════════════════════════════
+   ORDER BUTTON
+═══════════════════════════════════════════ */
+.order-btn {
+  width: 100%; padding: 17px;
+  background: var(--grad); color: #fff; border: none;
+  border-radius: var(--radius-sm);
+  font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 17px;
+  letter-spacing: 0.3px; cursor: pointer;
+  transition: all 0.2s; box-shadow: 0 6px 24px #dc274340;
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+}
+.order-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 36px #dc274450; }
+.order-btn:active { transform: translateY(0); }
+.order-btn:disabled { opacity: 0.55; cursor: not-allowed; transform: none; box-shadow: none; }
+.order-btn-icon { font-size: 20px; }
+
+/* ═══════════════════════════════════════════
+   TRUST STRIP
+═══════════════════════════════════════════ */
+.trust-strip {
+  display: flex; justify-content: center; gap: 20px;
+  margin-top: 12px; flex-wrap: wrap;
+}
+.trust-item {
+  display: flex; align-items: center; gap: 5px;
+  font-size: 11px; color: var(--muted); font-weight: 500;
+}
+.trust-item span { font-size: 13px; }
+
+/* ═══════════════════════════════════════════
+   ADMIN — LOGIN
+═══════════════════════════════════════════ */
+.admin-login-wrap { max-width: 380px; margin: 60px auto; padding: 0 16px; }
+.admin-login-logo {
+  text-align: center; margin-bottom: 28px;
+}
+.admin-login-logo .big-logo {
+  font-family: 'Outfit', sans-serif; font-weight: 900; font-size: 28px;
+  background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.admin-login-logo p { font-size: 13px; color: var(--muted); margin-top: 4px; }
+.admin-card {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 28px; box-shadow: var(--shadow);
+}
+
+/* ═══════════════════════════════════════════
+   ADMIN — PANEL
+═══════════════════════════════════════════ */
+.admin-wrap { max-width: 740px; margin: 0 auto; padding: 24px 16px 80px; }
+.admin-topbar {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 24px;
+}
+.admin-topbar h2 { font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 24px; letter-spacing: -0.5px; }
+.admin-topbar p { font-size: 13px; color: var(--muted); margin-top: 2px; }
+
+.acard {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 22px; margin-bottom: 16px;
+  box-shadow: var(--shadow-sm);
+}
+.acard-head {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 16px;
+}
+.acard-title {
+  font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 15px;
+  display: flex; align-items: center; gap: 8px;
+}
+.acard-icon {
+  width: 30px; height: 30px; border-radius: 9px;
+  background: linear-gradient(135deg, #fff5f0, #ffe0f0);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 15px; border: 1px solid #f0d0d0;
+}
+
+.atbl { width: 100%; border-collapse: collapse; font-size: 13px; }
+.atbl th {
+  text-align: left; padding: 9px 12px;
+  font-size: 10px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.7px;
+  color: var(--muted); border-bottom: 1px solid var(--border);
+}
+.atbl td { padding: 11px 12px; border-bottom: 1px solid var(--border); color: var(--text2); }
+.atbl td:first-child { font-weight: 600; color: var(--text); }
+.atbl tr:last-child td { border-bottom: none; }
+.atbl tr:hover td { background: #fafafa; }
+
+.tag {
+  display: inline-block; padding: 3px 10px; border-radius: 100px;
+  font-size: 10px; font-weight: 700; letter-spacing: 0.4px;
+}
+.tag.active { background: #e6faf2; color: #00a866; }
+.tag.inactive { background: #fff0f0; color: #cc3344; }
+
+.add-btn {
+  background: var(--grad); color: #fff; border: none;
+  padding: 8px 18px; border-radius: 10px;
+  font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 13px;
+  cursor: pointer; transition: all 0.18s;
+  box-shadow: 0 3px 12px #dc274325;
+}
+.add-btn:hover { transform: translateY(-1px); box-shadow: 0 5px 18px #dc274335; }
+
+.sm-btn {
+  padding: 6px 14px; border-radius: 8px;
+  border: 1px solid var(--border); background: var(--surface);
+  color: var(--text2); font-size: 12px; font-weight: 500;
+  cursor: pointer; font-family: 'Inter', sans-serif;
+  transition: all 0.15s;
+}
+.sm-btn:hover { border-color: #e6683c; color: #e6683c; background: #fff5f0; }
+.sm-btn.del { border-color: #ffcccc; color: #cc3344; }
+.sm-btn.del:hover { background: #fff0f0; }
+
+/* ═══════════════════════════════════════════
+   MODAL
+═══════════════════════════════════════════ */
+.modal-bg {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.35);
+  backdrop-filter: blur(4px); z-index: 200;
+  display: flex; align-items: center; justify-content: center;
+  padding: 16px; opacity: 0; pointer-events: none;
+  transition: opacity 0.22s;
+}
+.modal-bg.open { opacity: 1; pointer-events: all; }
+.modal-box {
+  background: var(--white); border-radius: 24px;
+  padding: 28px; width: 100%; max-width: 420px;
+  box-shadow: var(--shadow-lg);
+  transform: scale(0.94) translateY(10px);
+  transition: transform 0.22s cubic-bezier(.4,0,.2,1);
+  max-height: 90vh; overflow-y: auto;
+}
+.modal-bg.open .modal-box { transform: scale(1) translateY(0); }
+.modal-title {
+  font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 18px;
+  margin-bottom: 20px; display: flex; align-items: center; gap: 10px;
+}
+.modal-title-icon { font-size: 22px; }
+.modal-footer { display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px; }
+.primary-btn {
+  background: var(--grad); color: #fff; border: none;
+  padding: 11px 22px; border-radius: 10px;
+  font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 14px;
+  cursor: pointer; transition: all 0.18s;
+}
+.primary-btn:hover { transform: translateY(-1px); }
+
+/* ═══════════════════════════════════════════
+   CODE BLOCK
+═══════════════════════════════════════════ */
+.code-block {
+  background: #1e1e2e; border-radius: var(--radius-sm);
+  padding: 16px; font-size: 12px; line-height: 1.7;
+  color: #a8d8a8; overflow-x: auto; white-space: pre;
+  font-family: 'Courier New', monospace;
+  border: 1px solid #2a2a40;
+  user-select: all;
+}
+.guide-step {
+  display: flex; gap: 12px; padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 13px; color: var(--text2); line-height: 1.5;
+}
+.guide-step:last-child { border-bottom: none; }
+.step-num {
+  width: 24px; height: 24px; border-radius: 50%;
+  background: var(--grad); color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 11px;
+  flex-shrink: 0; margin-top: 1px;
+}
+
+/* ═══════════════════════════════════════════
+   TOAST
+═══════════════════════════════════════════ */
+.toast {
+  position: fixed; bottom: 28px; left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  background: var(--text); color: #fff;
+  padding: 12px 22px; border-radius: 100px;
+  font-size: 13px; font-weight: 500;
+  z-index: 400; white-space: nowrap;
+  transition: transform 0.3s cubic-bezier(.4,0,.2,1);
+  box-shadow: var(--shadow-lg);
+  display: flex; align-items: center; gap: 8px;
+}
+.toast.show { transform: translateX(-50%) translateY(0); }
+.toast.success { background: var(--success); }
+.toast.error { background: var(--error); }
+
+/* ═══════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════ */
+@media (max-width: 420px) {
+  .service-grid { grid-template-columns: 1fr; }
+  .hero-stats { display: none; }
+  .stat-item { padding: 12px 16px; }
+}
+@media (max-width: 320px) {
+  .qty-btn { width: 38px; height: 38px; }
+}
+</style>
+</head>
+<body>
+
+<div class="bg-deco"></div>
+
+<!-- ════════════════════════════════════════
+     NAV
+════════════════════════════════════════ -->
+<nav>
+  <div class="nav-logo">InstaGrow</div>
+  <div class="nav-pill">
+    <div class="nav-dot"></div>
+    Live &amp; Active
+  </div>
+</nav>
+
+<!-- ════════════════════════════════════════
+     ORDER PAGE
+════════════════════════════════════════ -->
+<div id="page-order" class="page active">
+  <div class="hero">
+    <div class="hero-eyebrow">
+      <div class="live-dot"></div>
+      Instant Delivery · Guaranteed Refill
+    </div>
+    <h1>Grow Your<br><span class="grad-text">Instagram</span><br>Today</h1>
+    <p class="hero-sub">Real followers and views. Lightning-fast delivery. Refill guarantee included.</p>
+    <div class="hero-stats">
+      <div class="stat-item">
+        <div class="stat-num">50K+</div>
+        <div class="stat-label">Orders Done</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">10K/h</div>
+        <div class="stat-label">Speed</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">15d</div>
+        <div class="stat-label">Refill</div>
+      </div>
+    </div>
+  </div>
+
+  <main>
+    <div class="section-label">Choose a service</div>
+    <div class="service-grid" id="serviceGrid"></div>
+
+    <!-- ORDER PANEL -->
+    <div class="order-panel" id="orderPanel">
+      <div class="order-panel-header">
+        <div class="order-panel-icon" id="panelIcon">📦</div>
+        <div>
+          <div class="order-panel-title" id="panelTitle">Order Details</div>
+          <div class="order-panel-sub" id="panelSub">Fill in the details below</div>
+        </div>
+      </div>
+      <div class="order-panel-body">
+
+        <div id="usernameField" class="fgroup" style="display:none;">
+          <label class="flabel">Instagram Username or Profile Link</label>
+          <input class="finput" type="text" id="targetInput" placeholder="@yourhandle or instagram.com/username" />
+        </div>
+
+        <div id="linkField" class="fgroup" style="display:none;">
+          <label class="flabel">Reel or Post Link</label>
+          <input class="finput" type="url" id="reelInput" placeholder="https://instagram.com/reel/..." />
+        </div>
+
+        <div class="fgroup">
+          <label class="flabel">Quantity</label>
+          <div class="qty-row">
+            <button class="qty-btn" onclick="changeQty(-1000)">−</button>
+            <input class="finput qty-field" type="number" id="qtyInput" value="1000" oninput="recalc()" />
+            <button class="qty-btn" onclick="changeQty(1000)">+</button>
+          </div>
+          <div class="qty-range">
+            <span>Min: <span id="qtyMin">10</span></span>
+            <span>Max: <span id="qtyMax">50,000</span></span>
+          </div>
+        </div>
+
+        <div class="chips" id="serviceChips"></div>
+
+        <div class="divider">Have a promo code?</div>
+
+        <div class="fgroup">
+          <div class="promo-row">
+            <input class="finput" type="text" id="promoInput" placeholder="ENTER CODE" style="text-transform:uppercase;letter-spacing:2px;" oninput="this.value=this.value.toUpperCase()" />
+            <button class="promo-btn" onclick="applyPromo()">Apply</button>
+          </div>
+          <div class="promo-msg" id="promoMsg"></div>
+        </div>
+
+        <div class="price-box">
+          <div class="price-left">
+            <div class="price-tag">Total Amount</div>
+            <div id="priceStrikeLine" style="display:none;">
+              <span class="price-strike" id="priceOrig"></span>
+              &nbsp;<span class="price-saved" id="priceSaved"></span>
+            </div>
+          </div>
+          <div class="price-right"><sup>₹</sup><span id="priceVal">0</span></div>
+        </div>
+
+        <button class="order-btn" id="orderBtn" onclick="placeOrder()">
+          <span class="order-btn-icon">💳</span>
+          Pay &amp; Order Now
+        </button>
+
+        <div class="trust-strip">
+          <div class="trust-item"><span>🔒</span> Secure UPI</div>
+          <div class="trust-item"><span>⚡</span> Instant Start</div>
+          <div class="trust-item"><span>🛡️</span> Refill Guarantee</div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- ════════════════════════════════════════
+     ADMIN PAGE
+════════════════════════════════════════ -->
+<div id="page-admin" class="page">
+
+  <!-- LOGIN -->
+  <div id="adminLogin" class="admin-login-wrap">
+    <div class="admin-login-logo">
+      <div class="big-logo">InstaGrow</div>
+      <p>Admin Dashboard — Authorized Access Only</p>
+    </div>
+    <div class="admin-card">
+      <div class="fgroup">
+        <label class="flabel">Admin Password</label>
+        <input class="finput" type="password" id="adminPassInput" placeholder="Enter password" onkeydown="if(event.key==='Enter')adminLogin()" />
+      </div>
+      <button class="order-btn" onclick="adminLogin()" style="margin-top:4px;">
+        <span>🔑</span> Sign In
+      </button>
+    </div>
+  </div>
+
+  <!-- PANEL -->
+  <div id="adminPanel" class="admin-wrap" style="display:none;">
+    <div class="admin-topbar">
+      <div>
+        <h2>Dashboard</h2>
+        <p>Manage services, promos &amp; settings</p>
+      </div>
+      <button class="sm-btn" onclick="adminLogout()">Sign Out</button>
+    </div>
+
+    <!-- SERVICES -->
+    <div class="acard">
+      <div class="acard-head">
+        <div class="acard-title"><div class="acard-icon">📦</div> Services</div>
+        <button class="add-btn" onclick="openServiceModal()">+ Add Service</button>
+      </div>
+      <table class="atbl">
+        <thead><tr><th>Service</th><th>Rate</th><th>Min / Max</th><th>Actions</th></tr></thead>
+        <tbody id="adminServicesTable"></tbody>
+      </table>
+    </div>
+
+    <!-- PROMOS -->
+    <div class="acard">
+      <div class="acard-head">
+        <div class="acard-title"><div class="acard-icon">🎟️</div> Promo Codes</div>
+        <button class="add-btn" onclick="openPromoModal()">+ Add Code</button>
+      </div>
+      <table class="atbl">
+        <thead><tr><th>Code</th><th>Discount</th><th>Used / Limit</th><th>Service</th><th>Status</th><th>Actions</th></tr></thead>
+        <tbody id="adminPromoTable"></tbody>
+      </table>
+    </div>
+
+    <!-- SETTINGS -->
+    <div class="acard">
+      <div class="acard-head">
+        <div class="acard-title"><div class="acard-icon">⚙️</div> Payment &amp; Sheet Settings</div>
+      </div>
+      <div class="fgroup">
+        <label class="flabel">UPI ID</label>
+        <input class="finput" type="text" id="adminUpi" placeholder="yourname@upi" />
+      </div>
+      <div class="fgroup">
+        <label class="flabel">Display Name</label>
+        <input class="finput" type="text" id="adminUpiName" placeholder="InstaGrow" />
+      </div>
+      <div style="height:1px;background:var(--border);margin:16px 0;"></div>
+      <div class="fgroup">
+        <label class="flabel">Google Sheet Web App URL</label>
+        <input class="finput" type="text" id="adminSheetUrl" placeholder="https://script.google.com/macros/s/..." />
+        <div style="font-size:11px;color:var(--muted);margin-top:6px;">Orders log here automatically. See setup guide below.</div>
+      </div>
+      <button class="primary-btn" onclick="saveUpi()">Save Settings</button>
+    </div>
+
+    <!-- APPS SCRIPT GUIDE -->
+    <div class="acard" style="border-color:#f0d0c0;">
+      <div class="acard-head" style="margin-bottom:12px;">
+        <div class="acard-title"><div class="acard-icon">📋</div> Google Sheets Setup</div>
+        <button class="sm-btn" onclick="copyScript()">📋 Copy Script</button>
+      </div>
+      <div style="margin-bottom:16px;">
+        <div class="guide-step"><div class="step-num">1</div><div>Go to <a href="https://sheets.google.com" target="_blank" style="color:#e6683c;font-weight:600;">sheets.google.com</a> → Create a new spreadsheet</div></div>
+        <div class="guide-step"><div class="step-num">2</div><div>Click <b>Extensions → Apps Script</b></div></div>
+        <div class="guide-step"><div class="step-num">3</div><div>Delete all existing code and paste the script below</div></div>
+        <div class="guide-step"><div class="step-num">4</div><div>Click <b>Deploy → New Deployment → Web App</b><br>Execute as: <b>Me</b> &nbsp;·&nbsp; Access: <b>Anyone</b></div></div>
+        <div class="guide-step"><div class="step-num">5</div><div>Copy the Web App URL → paste above → Save Settings</div></div>
+      </div>
+      <pre id="scriptCode" class="code-block">function doPost(e) {
+  try {
+    var ss    = SpreadsheetApp.getActiveSpreadsheet();
+    var sheet = ss.getSheetByName('Orders');
+
+    // Auto-create sheet with headers if it doesn't exist
+    if (!sheet) {
+      sheet = ss.insertSheet('Orders');
+      sheet.appendRow([
+        'Order ID', 'Date & Time', 'Service',
+        'Instagram ID / Link', 'Quantity',
+        'Amount (₹)', 'Promo Code', 'Status'
+      ]);
+      // Style the header row
+      var header = sheet.getRange(1, 1, 1, 8);
+      header.setFontWeight('bold');
+      header.setBackground('#f09433');
+      header.setFontColor('#ffffff');
+    }
+
+    var data = JSON.parse(e.postData.contents);
+
+    sheet.appendRow([
+      data.orderId,
+      data.timestamp,
+      data.service,
+      data.target,
+      data.quantity,
+      data.amount,
+      data.promo,
+      data.status
+    ]);
+
+    return ContentService
+      .createTextOutput(JSON.stringify({ result: 'ok' }))
+      .setMimeType(ContentService.MimeType.JSON);
+
+  } catch (err) {
+    return ContentService
+      .createTextOutput(JSON.stringify({ result: 'error', msg: err.toString() }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+}</pre>
+    </div>
+
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     MODALS
+════════════════════════════════════════ -->
+<!-- Service Modal -->
+<div class="modal-bg" id="serviceModal">
+  <div class="modal-box">
+    <div class="modal-title"><span class="modal-title-icon">📦</span><span id="serviceModalTitle">Add Service</span></div>
+    <input type="hidden" id="serviceEditId" />
+    <div class="fgroup"><label class="flabel">Service Name</label><input class="finput" type="text" id="svcName" placeholder="Instagram Followers" /></div>
+    <div class="fgroup"><label class="flabel">Emoji Icon</label><input class="finput" type="text" id="svcEmoji" placeholder="👥" /></div>
+    <div class="fgroup"><label class="flabel">Input Type</label>
+      <select class="finput" id="svcType">
+        <option value="username">Username / Profile Link</option>
+        <option value="link">Reel / Post Link</option>
+      </select>
+    </div>
+    <div class="fgroup"><label class="flabel">Price per 1K (₹)</label><input class="finput" type="number" id="svcPrice" placeholder="25" /></div>
+    <div class="fgroup"><label class="flabel">Min Quantity</label><input class="finput" type="number" id="svcMin" value="10" /></div>
+    <div class="fgroup"><label class="flabel">Max Quantity</label><input class="finput" type="number" id="svcMax" value="50000" /></div>
+    <div class="fgroup"><label class="flabel">Badge Text (optional)</label><input class="finput" type="text" id="svcBadge" placeholder="🔥 Popular" /></div>
+    <div class="fgroup"><label class="flabel">Speed</label><input class="finput" type="text" id="svcSpeed" placeholder="10K/Hour" /></div>
+    <div class="fgroup"><label class="flabel">Guarantee</label><input class="finput" type="text" id="svcGuarantee" placeholder="15 Days Refill" /></div>
+    <div class="modal-footer">
+      <button class="sm-btn" onclick="closeModal('serviceModal')">Cancel</button>
+      <button class="primary-btn" onclick="saveService()">Save Service</button>
+    </div>
+  </div>
+</div>
+
+<!-- Promo Modal -->
+<div class="modal-bg" id="promoModal">
+  <div class="modal-box">
+    <div class="modal-title"><span class="modal-title-icon">🎟️</span><span id="promoModalTitle">Add Promo Code</span></div>
+    <input type="hidden" id="promoEditId" />
+    <div class="fgroup"><label class="flabel">Code</label><input class="finput" type="text" id="promoCode" placeholder="SAVE20" style="text-transform:uppercase;letter-spacing:2px;" oninput="this.value=this.value.toUpperCase()" /></div>
+    <div class="fgroup"><label class="flabel">Discount Type</label>
+      <select class="finput" id="promoType" onchange="togglePromoType()">
+        <option value="percent">Percentage Off (%)</option>
+        <option value="fixed">Fixed Rate Override (₹ per 1K)</option>
+      </select>
+    </div>
+    <div class="fgroup" id="promoDiscGroup"><label class="flabel">Discount %</label><input class="finput" type="number" id="promoDisc" placeholder="20" min="1" max="100" /></div>
+    <div class="fgroup" id="promoFixedGroup" style="display:none;"><label class="flabel">Fixed Rate per 1K (₹)</label><input class="finput" type="number" id="promoFixed" placeholder="20" /></div>
+    <div class="fgroup"><label class="flabel">Restrict to Service (optional)</label>
+      <select class="finput" id="promoServiceId"><option value="">All Services</option></select>
+    </div>
+    <div class="fgroup"><label class="flabel">Usage Limit (0 = unlimited)</label><input class="finput" type="number" id="promoLimit" placeholder="100" /></div>
+    <div class="fgroup"><label class="flabel">Status</label>
+      <select class="finput" id="promoStatus">
+        <option value="active">Active</option>
+        <option value="inactive">Inactive</option>
+      </select>
+    </div>
+    <div class="modal-footer">
+      <button class="sm-btn" onclick="closeModal('promoModal')">Cancel</button>
+      <button class="primary-btn" onclick="savePromo()">Save Code</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- ════════════════════════════════════════
+     JAVASCRIPT
+════════════════════════════════════════ -->
+<script>
+// ── DATA ─────────────────────────────────────────────────────
+const ADMIN_PASS = 'admin123';
+
+function getData(k, def) { try { return JSON.parse(localStorage.getItem(k)) ?? def; } catch { return def; } }
+function setData(k, v)   { localStorage.setItem(k, JSON.stringify(v)); }
+
+const DEFAULT_SERVICES = [
+  { id: 1, name: 'Instagram Followers', emoji: '👥', type: 'username', price: 25, min: 10,  max: 50000, badge: '⭐ Popular', speed: '10K/Hour', guarantee: '15 Days Refill' },
+  { id: 2, name: 'Reels Views',          emoji: '🎬', type: 'link',     price: 2,  min: 100, max: 50000, badge: '🔥 Cheapest', speed: '50K/Hour', guarantee: '30 Days Refill' },
+];
+const DEFAULT_PROMOS = [
+  { id: 1, code: 'BOOST10', discount: 10,  fixedPrice: null, serviceId: null, limit: 100, used: 0, status: 'active' },
+  { id: 2, code: 'SAVE5',   discount: 0,   fixedPrice: 20,  serviceId: 1,    limit: 200, used: 0, status: 'active' },
+];
+const DEFAULT_UPI = { id: 'john-7624@ptaxis', name: 'InstaGrow' };
+
+const getServices = () => getData('bg_services', DEFAULT_SERVICES);
+const getPromos   = () => getData('bg_promos',   DEFAULT_PROMOS);
+const getUpi      = () => getData('bg_upi',       DEFAULT_UPI);
+
+// ── STATE ─────────────────────────────────────────────────────
+let selectedService = null;
+let appliedPromo    = null;
+
+// ── ROUTING ───────────────────────────────────────────────────
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+}
+function checkRoute() {
+  if (window.location.hash === '#admin' || window.location.pathname.endsWith('/admin')) showPage('admin');
+}
+window.addEventListener('hashchange', checkRoute);
+
+// ── SERVICE GRID ──────────────────────────────────────────────
+function renderServices() {
+  const grid = document.getElementById('serviceGrid');
+  grid.innerHTML = getServices().map(s => `
+    <div class="service-card" id="svc_${s.id}" onclick="selectService(${s.id})">
+      ${s.badge ? `<div class="svc-badge">${s.badge}</div>` : ''}
+      <div class="svc-check">✓</div>
+      <div class="svc-icon-wrap">${s.emoji}</div>
+      <div class="svc-name">${s.name}</div>
+      <div class="svc-price">₹${s.price} / 1K</div>
+    </div>
+  `).join('');
+}
+
+function selectService(id) {
+  const services = getServices();
+  selectedService = services.find(s => s.id === id);
+  document.querySelectorAll('.service-card').forEach(el => el.classList.remove('selected'));
+  document.getElementById('svc_' + id).classList.add('selected');
+
+  const panel = document.getElementById('orderPanel');
+  panel.style.display = 'block';
+  panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+  document.getElementById('usernameField').style.display = selectedService.type === 'username' ? 'block' : 'none';
+  document.getElementById('linkField').style.display     = selectedService.type === 'link'     ? 'block' : 'none';
+
+  document.getElementById('panelIcon').textContent  = selectedService.emoji;
+  document.getElementById('panelTitle').textContent = selectedService.name;
+  document.getElementById('panelSub').textContent   = '₹' + selectedService.price + ' per 1K · ' + selectedService.guarantee;
+
+  const qi = document.getElementById('qtyInput');
+  qi.min   = selectedService.min;
+  qi.max   = selectedService.max;
+  qi.value = Math.max(1000, selectedService.min);
+  document.getElementById('qtyMin').textContent = selectedService.min.toLocaleString('en-IN');
+  document.getElementById('qtyMax').textContent = selectedService.max.toLocaleString('en-IN');
+
+  document.getElementById('serviceChips').innerHTML = `
+    <div class="chip"><span class="chip-icon">⏱</span> Start: 0–60 min</div>
+    <div class="chip"><span class="chip-icon">🚀</span> ${selectedService.speed}</div>
+    <div class="chip"><span class="chip-icon">🛡️</span> ${selectedService.guarantee}</div>
+    <div class="chip"><span class="chip-icon">📉</span> 10–20% drop possible</div>
+  `;
+
+  appliedPromo = null;
+  document.getElementById('promoInput').value = '';
+  document.getElementById('promoMsg').textContent = '';
+  document.getElementById('promoMsg').className = 'promo-msg';
+  recalc();
+}
+
+function changeQty(d) {
+  const qi  = document.getElementById('qtyInput');
+  const min = selectedService?.min ?? 10;
+  const max = selectedService?.max ?? 50000;
+  qi.value  = Math.max(min, Math.min(max, (parseInt(qi.value) || 0) + d));
+  recalc();
+}
+
+// ── RECALC ────────────────────────────────────────────────────
+function recalc() {
+  if (!selectedService) return;
+  const qty  = parseInt(document.getElementById('qtyInput').value) || 0;
+  const base = (qty / 1000) * selectedService.price;
+  let   fin  = base;
+
+  document.getElementById('priceStrikeLine').style.display = 'none';
+  if (appliedPromo) {
+    if (appliedPromo.fixedPrice != null) {
+      fin = (qty / 1000) * appliedPromo.fixedPrice;
+      document.getElementById('priceOrig').textContent  = '₹' + base.toFixed(2);
+      document.getElementById('priceSaved').textContent = '₹' + (base - fin).toFixed(2) + ' saved';
+      document.getElementById('priceStrikeLine').style.display = 'block';
+    } else if (appliedPromo.discount > 0) {
+      fin = base * (1 - appliedPromo.discount / 100);
+      document.getElementById('priceOrig').textContent  = '₹' + base.toFixed(2);
+      document.getElementById('priceSaved').textContent = appliedPromo.discount + '% off';
+      document.getElementById('priceStrikeLine').style.display = 'block';
+    }
+  }
+  document.getElementById('priceVal').textContent = fin.toFixed(2);
+}
+
+// ── PROMO ─────────────────────────────────────────────────────
+function applyPromo() {
+  const code   = document.getElementById('promoInput').value.trim().toUpperCase();
+  const msgEl  = document.getElementById('promoMsg');
+  const promos = getPromos();
+  const promo  = promos.find(p => p.code === code && p.status === 'active');
+
+  const setMsg = (ok, txt) => { msgEl.className = 'promo-msg ' + (ok ? 'ok' : 'err'); msgEl.textContent = txt; };
+
+  if (!promo)                                  { appliedPromo = null; setMsg(false, '✗ Invalid or inactive code.'); recalc(); return; }
+  if (promo.limit > 0 && promo.used >= promo.limit) { appliedPromo = null; setMsg(false, '✗ Code usage limit reached.'); recalc(); return; }
+  if (promo.serviceId && selectedService && promo.serviceId !== selectedService.id) {
+    appliedPromo = null;
+    const svc = getServices().find(s => s.id === promo.serviceId);
+    setMsg(false, '✗ Only valid for ' + (svc ? svc.name : 'another service') + '.'); recalc(); return;
+  }
+
+  appliedPromo = promo;
+  setMsg(true, promo.fixedPrice != null
+    ? '✓ Special rate applied — ₹' + promo.fixedPrice + '/1K'
+    : '✓ ' + promo.discount + '% discount applied!');
+  recalc();
+}
+
+// ── PLACE ORDER ───────────────────────────────────────────────
+async function placeOrder() {
+  if (!selectedService) return showToast('Select a service first', 'error');
+
+  const qty = parseInt(document.getElementById('qtyInput').value);
+  if (qty < selectedService.min || qty > selectedService.max)
+    return showToast('Quantity must be ' + selectedService.min + '–' + selectedService.max, 'error');
+
+  const target = selectedService.type === 'username'
+    ? document.getElementById('targetInput').value.trim()
+    : document.getElementById('reelInput').value.trim();
+  if (!target)
+    return showToast(selectedService.type === 'username' ? 'Enter an Instagram username or link' : 'Enter the reel link', 'error');
+
+  const amount = parseFloat(document.getElementById('priceVal').textContent);
+  if (!amount || amount <= 0) return showToast('Invalid amount', 'error');
+
+  const orderId = 'IG-' + Date.now();
+  const now     = new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
+
+  // 1 — LOG TO GOOGLE SHEETS
+  const sheetUrl = getData('bg_sheeturl', '');
+  if (sheetUrl) {
+    const btn = document.getElementById('orderBtn');
+    btn.disabled = true;
+    btn.innerHTML = '<span>⏳</span> Logging order...';
+    try {
+      await fetch(sheetUrl, {
+        method: 'POST', mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          orderId, timestamp: now,
+          service: selectedService.name,
+          target, quantity: qty,
+          amount: amount.toFixed(2),
+          promo: appliedPromo ? appliedPromo.code : '—',
+          status: 'Pending Payment'
+        })
+      });
+    } catch(e) {}
+    btn.disabled = false;
+    btn.innerHTML = '<span class="order-btn-icon">💳</span> Pay & Order Now';
+  }
+
+  // 2 — INCREMENT PROMO
+  if (appliedPromo) {
+    const promos = getPromos();
+    const i = promos.findIndex(p => p.id === appliedPromo.id);
+    if (i !== -1) { promos[i].used++; setData('bg_promos', promos); }
+  }
+
+  // 3 — UPI REDIRECT
+  const upi    = getUpi();
+  const note   = encodeURIComponent(orderId + ' | ' + selectedService.name + ' x' + qty);
+  const upiUrl = 'upi://pay?pa=' + encodeURIComponent(upi.id)
+               + '&pn=' + encodeURIComponent(upi.name || 'InstaGrow')
+               + '&am=' + amount.toFixed(2) + '&cu=INR&tn=' + note;
+
+  const a = document.createElement('a');
+  a.href = upiUrl; a.click();
+
+  showToast('✓ Opening payment for ₹' + amount.toFixed(2), 'success');
+}
+
+// ── ADMIN ─────────────────────────────────────────────────────
+function adminLogin() {
+  if (document.getElementById('adminPassInput').value === getData('bg_adminpass', ADMIN_PASS)) {
+    document.getElementById('adminLogin').style.display  = 'none';
+    document.getElementById('adminPanel').style.display  = 'block';
+    renderAdminServices(); renderAdminPromos(); loadSettings();
+  } else showToast('Wrong password', 'error');
+}
+function adminLogout() {
+  document.getElementById('adminLogin').style.display = 'block';
+  document.getElementById('adminPanel').style.display = 'none';
+  document.getElementById('adminPassInput').value     = '';
+}
+
+function renderAdminServices() {
+  document.getElementById('adminServicesTable').innerHTML =
+    getServices().map(s => `
+      <tr>
+        <td>${s.emoji} ${s.name}</td>
+        <td>₹${s.price}/1K</td>
+        <td>${s.min.toLocaleString()} – ${s.max.toLocaleString()}</td>
+        <td style="display:flex;gap:6px;">
+          <button class="sm-btn" onclick="openServiceModal(${s.id})">Edit</button>
+          <button class="sm-btn del" onclick="deleteService(${s.id})">Delete</button>
+        </td>
+      </tr>`).join('');
+}
+
+function renderAdminPromos() {
+  const services = getServices();
+  document.getElementById('adminPromoTable').innerHTML =
+    getPromos().map(p => {
+      const disc = p.fixedPrice != null ? '₹' + p.fixedPrice + '/1K' : p.discount + '% off';
+      const svc  = p.serviceId ? (services.find(s => s.id === p.serviceId)?.name || '—') : 'All';
+      return `<tr>
+        <td>${p.code}</td>
+        <td>${disc}</td>
+        <td>${p.used} / ${p.limit === 0 ? '∞' : p.limit}</td>
+        <td style="color:var(--muted);font-weight:400;">${svc}</td>
+        <td><span class="tag ${p.status}">${p.status}</span></td>
+        <td style="display:flex;gap:6px;">
+          <button class="sm-btn" onclick="openPromoModal(${p.id})">Edit</button>
+          <button class="sm-btn del" onclick="deletePromo(${p.id})">Delete</button>
+        </td>
+      </tr>`;
+    }).join('');
+}
+
+// SERVICE MODAL
+function openServiceModal(id) {
+  const s = id ? getServices().find(x => x.id === id) : null;
+  document.getElementById('serviceModalTitle').textContent = id ? 'Edit Service' : 'Add Service';
+  document.getElementById('serviceEditId').value  = id || '';
+  document.getElementById('svcName').value        = s?.name || '';
+  document.getElementById('svcEmoji').value       = s?.emoji || '📦';
+  document.getElementById('svcType').value        = s?.type || 'username';
+  document.getElementById('svcPrice').value       = s?.price || '';
+  document.getElementById('svcMin').value         = s?.min || 10;
+  document.getElementById('svcMax').value         = s?.max || 50000;
+  document.getElementById('svcBadge').value       = s?.badge || '';
+  document.getElementById('svcSpeed').value       = s?.speed || '';
+  document.getElementById('svcGuarantee').value   = s?.guarantee || '';
+  openModal('serviceModal');
+}
+function saveService() {
+  const id = parseInt(document.getElementById('serviceEditId').value) || null;
+  const svcs = getServices();
+  const obj  = {
+    id: id || Date.now(),
+    name:      document.getElementById('svcName').value.trim(),
+    emoji:     document.getElementById('svcEmoji').value.trim() || '📦',
+    type:      document.getElementById('svcType').value,
+    price:     parseFloat(document.getElementById('svcPrice').value),
+    min:       parseInt(document.getElementById('svcMin').value),
+    max:       parseInt(document.getElementById('svcMax').value),
+    badge:     document.getElementById('svcBadge').value.trim(),
+    speed:     document.getElementById('svcSpeed').value.trim(),
+    guarantee: document.getElementById('svcGuarantee').value.trim(),
+  };
+  if (!obj.name || isNaN(obj.price)) return showToast('Name and price are required', 'error');
+  if (id) { const i = svcs.findIndex(s => s.id === id); svcs[i] = obj; } else { svcs.push(obj); }
+  setData('bg_services', svcs);
+  closeModal('serviceModal'); renderAdminServices(); renderServices();
+  showToast('Service saved ✓', 'success');
+}
+function deleteService(id) {
+  if (!confirm('Delete this service?')) return;
+  setData('bg_services', getServices().filter(s => s.id !== id));
+  renderAdminServices(); renderServices(); showToast('Deleted', 'success');
+}
+
+// PROMO MODAL
+function togglePromoType() {
+  const t = document.getElementById('promoType').value;
+  document.getElementById('promoDiscGroup').style.display  = t === 'percent' ? 'block' : 'none';
+  document.getElementById('promoFixedGroup').style.display = t === 'fixed'   ? 'block' : 'none';
+}
+function openPromoModal(id) {
+  const p = id ? getPromos().find(x => x.id === id) : null;
+  document.getElementById('promoModalTitle').textContent = id ? 'Edit Promo Code' : 'Add Promo Code';
+  document.getElementById('promoEditId').value  = id || '';
+  document.getElementById('promoCode').value    = p?.code || '';
+  document.getElementById('promoLimit').value   = p?.limit ?? 100;
+  document.getElementById('promoStatus').value  = p?.status || 'active';
+
+  const sel = document.getElementById('promoServiceId');
+  sel.innerHTML = '<option value="">All Services</option>' +
+    getServices().map(s => `<option value="${s.id}">${s.emoji} ${s.name}</option>`).join('');
+
+  if (p?.fixedPrice != null) {
+    document.getElementById('promoType').value  = 'fixed';
+    document.getElementById('promoFixed').value = p.fixedPrice;
+    document.getElementById('promoDisc').value  = '';
+    sel.value = p.serviceId || '';
+  } else {
+    document.getElementById('promoType').value  = 'percent';
+    document.getElementById('promoDisc').value  = p?.discount || '';
+    document.getElementById('promoFixed').value = '';
+    sel.value = '';
+  }
+  togglePromoType();
+  openModal('promoModal');
+}
+function savePromo() {
+  const id   = parseInt(document.getElementById('promoEditId').value) || null;
+  const pros = getPromos();
+  const type = document.getElementById('promoType').value;
+  const obj  = {
+    id:         id || Date.now(),
+    code:       document.getElementById('promoCode').value.trim().toUpperCase(),
+    discount:   type === 'percent' ? parseInt(document.getElementById('promoDisc').value)   : 0,
+    fixedPrice: type === 'fixed'   ? parseFloat(document.getElementById('promoFixed').value) : null,
+    serviceId:  parseInt(document.getElementById('promoServiceId').value) || null,
+    limit:      parseInt(document.getElementById('promoLimit').value) || 0,
+    used:       id ? (pros.find(p => p.id === id)?.used || 0) : 0,
+    status:     document.getElementById('promoStatus').value,
+  };
+  if (!obj.code) return showToast('Code is required', 'error');
+  if (id) { const i = pros.findIndex(p => p.id === id); pros[i] = obj; } else { pros.push(obj); }
+  setData('bg_promos', pros);
+  closeModal('promoModal'); renderAdminPromos();
+  showToast('Promo saved ✓', 'success');
+}
+function deletePromo(id) {
+  if (!confirm('Delete this promo code?')) return;
+  setData('bg_promos', getPromos().filter(p => p.id !== id));
+  renderAdminPromos(); showToast('Deleted', 'success');
+}
+
+// SETTINGS
+function loadSettings() {
+  const u = getUpi();
+  document.getElementById('adminUpi').value      = u.id || '';
+  document.getElementById('adminUpiName').value  = u.name || '';
+  document.getElementById('adminSheetUrl').value = getData('bg_sheeturl', '');
+}
+function saveUpi() {
+  setData('bg_upi',      { id: document.getElementById('adminUpi').value.trim(), name: document.getElementById('adminUpiName').value.trim() });
+  setData('bg_sheeturl', document.getElementById('adminSheetUrl').value.trim());
+  showToast('Settings saved ✓', 'success');
+}
+function copyScript() {
+  navigator.clipboard.writeText(document.getElementById('scriptCode').textContent)
+    .then(() => showToast('Script copied!', 'success'));
+}
+
+// MODAL HELPERS
+function openModal(id)  { document.getElementById(id).classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+document.querySelectorAll('.modal-bg').forEach(el =>
+  el.addEventListener('click', e => { if (e.target === el) el.classList.remove('open'); })
+);
+
+// TOAST
+function showToast(msg, type = '') {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.className = 'toast ' + type + ' show';
+  setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+// INIT
+renderServices();
+checkRoute();
+</script>
+</body>
+</html>
