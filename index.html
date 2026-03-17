@@ -699,6 +699,10 @@ main{max-width:540px;margin:0 auto;padding:0 16px 80px;position:relative;z-index
         <label class="fl">Google Sheet Web App URL</label>
         <input class="fi" id="cfg-sheet" placeholder="https://script.google.com/macros/s/..." />
         <div style="font-size:11px;color:var(--muted);margin-top:5px">Orders log here automatically.</div>
+        <div style="display:flex;align-items:center;gap:8px;margin-top:8px">
+          <button class="sm-btn" onclick="testSheet()" id="testSheetBtn" style="white-space:nowrap">🧪 Test Connection</button>
+          <div id="sheetTestResult" style="font-size:12px;font-weight:600"></div>
+        </div>
       </div>
       <div style="height:1px;background:var(--border);margin:12px 0"></div>
       <div class="fg">
@@ -1310,6 +1314,64 @@ function loadSettings() {
   document.getElementById('cfg-ec2url').value  =ec2.url||'';
   document.getElementById('cfg-apikey').value  =ec2.apiKey||'';
 }
+async function testSheet() {
+  const url = document.getElementById('cfg-sheet').value.trim();
+  const res  = document.getElementById('sheetTestResult');
+  const btn  = document.getElementById('testSheetBtn');
+
+  if (!url) {
+    res.style.color = '#ff3355';
+    res.textContent = '✗ Paste your Sheet URL first';
+    return;
+  }
+  if (!url.includes('script.google.com')) {
+    res.style.color = '#ff3355';
+    res.textContent = '✗ URL looks wrong — should contain script.google.com';
+    return;
+  }
+  if (!url.endsWith('/exec')) {
+    res.style.color = '#ff3355';
+    res.textContent = '✗ URL must end with /exec (not /dev)';
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = 'Testing...';
+  res.style.color = '#8888a8';
+  res.textContent = 'Sending test row...';
+
+  const testData = {
+    orderId:   'TEST-' + Date.now(),
+    timestamp: new Date().toLocaleString('en-IN', {timeZone:'Asia/Kolkata'}),
+    service:   'TEST — Connection Check',
+    target:    '@testuser',
+    quantity:  1,
+    amount:    '0',
+    promo:     '—',
+    status:    'Test Row — Delete Me'
+  };
+
+  try {
+    // Try with no-cors first (standard way)
+    await fetch(url, {
+      method:  'POST',
+      mode:    'no-cors',
+      headers: {'Content-Type': 'application/json'},
+      body:    JSON.stringify(testData)
+    });
+    // no-cors always returns opaque response — we can't read it
+    // So we consider it sent if no exception thrown
+    res.style.color = '#00c87c';
+    res.textContent = '✓ Request sent! Check your Google Sheet for a TEST row.';
+  } catch(e) {
+    res.style.color = '#ff3355';
+    res.textContent = '✗ Failed: ' + e.message;
+  }
+
+  btn.disabled = false;
+  btn.textContent = '🧪 Test Connection';
+}
+
 function saveSettings() {
   S('bg_upi',     {id:document.getElementById('cfg-upi').value.trim(),
                     name:document.getElementById('cfg-upiname').value.trim()});
