@@ -352,6 +352,51 @@ main{max-width:540px;margin:0 auto;padding:0 16px 80px;position:relative;z-index
 .toast.error{background:var(--error)}
 
 /* ════════════════════════════════
+   ORDER SUCCESS SCREEN
+════════════════════════════════ */
+.order-success{display:none;text-align:center;padding:32px 20px;
+  animation:pgIn .4s cubic-bezier(.4,0,.2,1)}
+.os-icon{font-size:64px;margin-bottom:16px;animation:popIn .5s cubic-bezier(.175,.885,.32,1.275)}
+@keyframes popIn{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}
+.os-title{font-family:'Outfit',sans-serif;font-weight:900;font-size:26px;
+  letter-spacing:-.5px;margin-bottom:8px}
+.os-sub{color:var(--muted);font-size:14px;line-height:1.6;margin-bottom:20px}
+.os-id{display:inline-block;background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--rs);padding:10px 20px;font-family:monospace;
+  font-size:15px;font-weight:700;color:var(--text);letter-spacing:1px;margin-bottom:20px}
+.os-steps{background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--r);padding:16px 20px;text-align:left;margin-bottom:20px}
+.os-step{display:flex;align-items:flex-start;gap:10px;padding:8px 0;
+  font-size:13px;color:var(--text2);border-bottom:1px solid var(--border)}
+.os-step:last-child{border-bottom:none}
+.os-step-num{width:22px;height:22px;border-radius:50%;background:var(--grad);
+  color:#fff;display:flex;align-items:center;justify-content:center;
+  font-family:'Outfit',sans-serif;font-weight:800;font-size:11px;flex-shrink:0}
+.os-new-btn{width:100%;padding:13px;background:var(--surface);border:1.5px solid var(--border);
+  border-radius:var(--rs);font-family:'Outfit',sans-serif;font-weight:700;
+  font-size:14px;cursor:pointer;color:var(--text2);transition:all .2s}
+.os-new-btn:hover{border-color:#e6683c;color:#e6683c}
+
+/* ════════════════════════════════
+   PENDING ORDERS TABLE (admin)
+════════════════════════════════ */
+.approve-btn{padding:6px 14px;border-radius:8px;border:none;
+  background:linear-gradient(135deg,#00c87c,#00a866);color:#fff;
+  font-size:12px;font-weight:700;cursor:pointer;font-family:'Outfit',sans-serif;
+  transition:all .15s;box-shadow:0 3px 10px #00c87c30}
+.approve-btn:hover{transform:translateY(-1px);box-shadow:0 5px 14px #00c87c40}
+.approve-btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.reject-btn{padding:6px 12px;border-radius:8px;border:1px solid #ffcccc;
+  background:transparent;color:#cc3344;font-size:12px;font-weight:600;
+  cursor:pointer;font-family:'Inter',sans-serif;transition:all .15s}
+.reject-btn:hover{background:#fff0f0}
+.pending-badge{display:inline-flex;align-items:center;gap:5px;
+  background:#fff8e6;border:1px solid #f0d060;border-radius:100px;
+  padding:3px 10px;font-size:10px;font-weight:700;color:#a06000}
+.pending-dot{width:6px;height:6px;border-radius:50%;background:#f0a000;
+  animation:plz 1s infinite}
+
+/* ════════════════════════════════
    EC2 STATUS BADGE (admin)
 ════════════════════════════════ */
 .ec2-status{display:inline-flex;align-items:center;gap:6px;
@@ -460,6 +505,42 @@ main{max-width:540px;margin:0 auto;padding:0 16px 80px;position:relative;z-index
 
       </div>
     </div>
+
+    <!-- ORDER SUCCESS SCREEN -->
+    <div id="orderSuccessScreen" class="order-success">
+      <div class="os-icon">✅</div>
+      <div class="os-title">Order Placed!</div>
+      <div class="os-sub">
+        Your payment is being verified.<br>
+        Followers will start once we confirm your payment.
+      </div>
+      <div class="os-id" id="os-orderid">IG-...</div>
+      <div style="font-size:13px;color:var(--muted);margin-bottom:16px">
+        <span id="os-service">—</span> &nbsp;·&nbsp; <b id="os-amount">—</b>
+      </div>
+      <div class="os-steps">
+        <div class="os-step">
+          <div class="os-step-num">1</div>
+          <div><b>Payment sent</b> via UPI — your payment app should confirm this</div>
+        </div>
+        <div class="os-step">
+          <div class="os-step-num">2</div>
+          <div><b>We verify</b> your payment manually — usually within 30 minutes</div>
+        </div>
+        <div class="os-step">
+          <div class="os-step-num">3</div>
+          <div><b>Followers start</b> automatically once payment is confirmed</div>
+        </div>
+      </div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:16px;
+        background:var(--surface);border:1px solid var(--border);
+        border-radius:var(--rs);padding:10px 14px">
+        📋 Save your Order ID: <b id="os-orderid2"></b><br>
+        You'll need it if you want a refill later.
+      </div>
+      <button class="os-new-btn" onclick="newOrder()">+ Place Another Order</button>
+    </div>
+
   </main>
 </div>
 
@@ -548,6 +629,30 @@ main{max-width:540px;margin:0 auto;padding:0 16px 80px;position:relative;z-index
         EC2 URL: <code style="color:#e6683c" id="ec2UrlDisplay">—</code><br>
         Active Orders on EC2: <b id="ec2ActiveCount">—</b>
       </div>
+    </div>
+
+    <!-- PENDING ORDERS -->
+    <div class="ac" id="pendingCard">
+      <div class="ac-hd">
+        <div class="ac-title">
+          <div class="ac-ico">🕐</div>
+          Pending Orders
+          <span class="pending-badge"><span class="pending-dot"></span><span id="pendingCount">0</span> awaiting</span>
+        </div>
+        <button class="sm-btn" onclick="renderPendingOrders()">↺ Refresh</button>
+      </div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:12px">
+        These orders are waiting for your payment verification. Click <b>Approve</b> to start sending followers.
+      </div>
+      <table class="atbl" id="pendingTable">
+        <thead><tr>
+          <th>Order ID</th><th>Service</th><th>Target</th>
+          <th>Qty</th><th>Amount</th><th>Time</th><th>Actions</th>
+        </tr></thead>
+        <tbody id="tbl-pending">
+          <tr><td colspan="7" style="text-align:center;padding:20px;color:var(--muted)">No pending orders</td></tr>
+        </tbody>
+      </table>
     </div>
 
     <!-- SERVICES -->
@@ -882,7 +987,25 @@ async function placeOrder() {
   btn.disabled=true;
   btn.innerHTML='<span>⏳</span> Processing...';
 
-  // 1 — GOOGLE SHEETS
+  // 1 — SAVE ORDER LOCALLY (pending approval)
+  const pendingOrders=D('bg_pending_orders',[]);
+  pendingOrders.unshift({
+    orderId, timestamp:now,
+    service:selSvc.name,
+    serviceId:selSvc.id,
+    target,
+    username: selSvc.type==='username'
+      ? target.replace('@','').split('/').pop().split('?')[0]
+      : target,
+    quantity:qty,
+    amount:amount.toFixed(2),
+    promo:selPromo?selPromo.code:'—',
+    status:'Pending Payment',
+    autoTrigger: selSvc.autoTrigger||'no'
+  });
+  S('bg_pending_orders', pendingOrders);
+
+  // 2 — GOOGLE SHEETS LOG
   const sheetUrl=D('bg_sheeturl','');
   if(sheetUrl) {
     try {
@@ -894,43 +1017,58 @@ async function placeOrder() {
     } catch(e){}
   }
 
-  // 2 — EC2 AUTO-TRIGGER (only for Followers / autoTrigger=yes)
-  if(selSvc.autoTrigger==='yes') {
-    const ec2=getEC2();
-    if(ec2.url && ec2.apiKey) {
-      try {
-        const r=await fetch(ec2.url+'/api/trigger',{
-          method:'POST',
-          headers:{'Authorization':'Bearer '+ec2.apiKey,'Content-Type':'application/json'},
-          body:JSON.stringify({api_key:ec2.apiKey,orderId,
-            username:target.replace('@','').split('/').pop(),
-            quantity:qty,amount:amount.toFixed(2),timestamp:now})
-        });
-        const d=await r.json();
-        if(d.success) console.log('[EC2] Order queued:',d.orderId);
-        else console.warn('[EC2] Error:',d.error);
-      } catch(e){ console.warn('[EC2] Unreachable:',e.message); }
-    }
-  }
-
-  // 3 — INCREMENT PROMO
+  // 3 — INCREMENT PROMO USAGE
   if(selPromo){
     const ps=getPromos();
     const i=ps.findIndex(p=>p.id===selPromo.id);
     if(i!==-1){ps[i].used++;S('bg_promos',ps);}
   }
 
-  // 4 — UPI PAYMENT
+  // 4 — SHOW SUCCESS SCREEN FIRST (before opening UPI app)
+  // This ensures user sees confirmation even when returning from UPI app
+  btn.disabled=false;
+  btn.innerHTML='<span>💳</span> Pay & Order Now';
+  showOrderSuccess(orderId, amount.toFixed(2), selSvc.name, qty);
+
+  // 5 — OPEN UPI PAYMENT (slight delay so success screen renders first)
   const upi=getUpi();
   const note=encodeURIComponent(orderId+' | '+selSvc.name+' x'+qty);
   const upiUrl='upi://pay?pa='+encodeURIComponent(upi.id)
     +'&pn='+encodeURIComponent(upi.name||'InstaGrow')
     +'&am='+amount.toFixed(2)+'&cu=INR&tn='+note;
-  const a=document.createElement('a'); a.href=upiUrl; a.click();
+  setTimeout(()=>{ const a=document.createElement('a'); a.href=upiUrl; a.click(); }, 400);
+}
 
-  btn.disabled=false;
-  btn.innerHTML='<span>💳</span> Pay & Order Now';
-  toast('✓ Opening payment ₹'+amount.toFixed(2),'success');
+function showOrderSuccess(orderId, amount, serviceName, qty) {
+  // Hide service grid and order form completely
+  document.getElementById('obox').style.display='none';
+  document.getElementById('svcGrid').style.display='none';
+  document.querySelectorAll('.slabel').forEach(el=>el.style.display='none');
+  document.querySelectorAll('.svc-card').forEach(c=>c.classList.remove('sel'));
+
+  // Populate and show success screen
+  const screen = document.getElementById('orderSuccessScreen');
+  screen.style.display='block';
+  document.getElementById('os-orderid').textContent=orderId;
+  document.getElementById('os-amount').textContent='₹'+amount;
+  document.getElementById('os-service').textContent=serviceName+' × '+qty.toLocaleString('en-IN');
+  document.getElementById('os-orderid2').textContent=orderId;
+
+  // Scroll to very top so user sees this the moment they return from UPI app
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function newOrder() {
+  document.getElementById('orderSuccessScreen').style.display='none';
+  document.getElementById('svcGrid').style.display='grid';
+  document.querySelectorAll('.slabel').forEach(el=>el.style.display='flex');
+  document.getElementById('inp-username').value='';
+  document.getElementById('inp-link').value='';
+  document.getElementById('inp-promo').value='';
+  document.getElementById('promo-msg').textContent='';
+  document.getElementById('promo-msg').className='pmsg';
+  selSvc=null; selPromo=null;
+  window.scrollTo({top:0,behavior:'smooth'});
 }
 
 // ── REFILL ────────────────────────────────────────────────────
@@ -1012,13 +1150,125 @@ function adminLogin() {
   if(document.getElementById('adminPass').value===ADMIN_PASS) {
     document.getElementById('adminLogin').style.display='none';
     document.getElementById('adminPanel').style.display='block';
-    renderAdminServices(); renderAdminPromos(); loadSettings(); checkEc2();
+    renderAdminServices(); renderAdminPromos(); loadSettings(); checkEc2(); renderPendingOrders();
   } else toast('Wrong password','error');
 }
 function adminLogout() {
   document.getElementById('adminLogin').style.display='block';
   document.getElementById('adminPanel').style.display='none';
   document.getElementById('adminPass').value='';
+}
+
+// ── PENDING ORDERS ───────────────────────────────────────────
+function renderPendingOrders() {
+  const orders = D('bg_pending_orders', []);
+  const pending = orders.filter(o => o.status === 'Pending Payment');
+  document.getElementById('pendingCount').textContent = pending.length;
+
+  const tbody = document.getElementById('tbl-pending');
+  if (!pending.length) {
+    tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:20px;color:var(--muted)">No pending orders ✓</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = pending.map(o => `
+    <tr id="row-${o.orderId}">
+      <td style="font-family:monospace;font-size:11px">${o.orderId}</td>
+      <td>${o.service}</td>
+      <td style="font-size:12px;max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${o.target}</td>
+      <td>${parseInt(o.quantity).toLocaleString('en-IN')}</td>
+      <td><b style="color:#00a866">₹${o.amount}</b></td>
+      <td style="font-size:11px;color:var(--muted)">${o.timestamp}</td>
+      <td style="display:flex;gap:6px;flex-wrap:wrap">
+        <button class="approve-btn" id="approve-${o.orderId}" onclick="approveOrder('${o.orderId}')">✓ Approve</button>
+        <button class="reject-btn" onclick="rejectOrder('${o.orderId}')">✗ Reject</button>
+      </td>
+    </tr>`).join('');
+}
+
+async function approveOrder(orderId) {
+  const orders  = D('bg_pending_orders', []);
+  const order   = orders.find(o => o.orderId === orderId);
+  if (!order) return toast('Order not found', 'error');
+
+  const btn = document.getElementById('approve-'+orderId);
+  if (btn) { btn.disabled=true; btn.textContent='Sending...'; }
+
+  // Trigger EC2 automation
+  const ec2 = getEC2();
+  let ec2Ok = false;
+
+  if (ec2.url && ec2.apiKey && order.autoTrigger === 'yes') {
+    try {
+      const r = await fetch(ec2.url+'/api/trigger', {
+        method: 'POST',
+        headers: { 'Authorization':'Bearer '+ec2.apiKey, 'Content-Type':'application/json' },
+        body: JSON.stringify({
+          api_key:   ec2.apiKey,
+          orderId:   order.orderId,
+          username:  order.username || order.target.replace('@','').split('/').pop().split('?')[0],
+          quantity:  order.quantity,
+          amount:    order.amount,
+          timestamp: order.timestamp
+        })
+      });
+      const d = await r.json();
+      ec2Ok = d.success;
+      if (!d.success) console.warn('[EC2]', d.error);
+    } catch(e) {
+      console.warn('[EC2] Unreachable:', e.message);
+    }
+  } else {
+    // Reels Views or no EC2 — just mark approved (you handle manually)
+    ec2Ok = true;
+  }
+
+  // Update order status
+  const idx = orders.findIndex(o => o.orderId === orderId);
+  if (idx !== -1) {
+    orders[idx].status = 'Approved';
+    orders[idx].approvedAt = new Date().toLocaleString('en-IN', {timeZone:'Asia/Kolkata'});
+    S('bg_pending_orders', orders);
+  }
+
+  // Update Google Sheets status
+  const sheetUrl = D('bg_sheeturl', '');
+  if (sheetUrl) {
+    try {
+      await fetch(sheetUrl, {method:'POST', mode:'no-cors',
+        headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({
+          orderId: 'UPD-'+orderId,
+          timestamp: new Date().toLocaleString('en-IN',{timeZone:'Asia/Kolkata'}),
+          service: order.service, target: order.target,
+          quantity: order.quantity, amount: order.amount,
+          promo: order.promo,
+          status: ec2Ok ? 'Approved — Automation Started' : 'Approved — Manual Delivery'
+        })});
+    } catch(e) {}
+  }
+
+  // Remove row from table
+  const row = document.getElementById('row-'+orderId);
+  if (row) row.remove();
+  renderPendingOrders();
+
+  if (order.autoTrigger === 'yes' && ec2Ok) {
+    toast('✅ Approved! Automation started for @'+order.username, 'success');
+  } else if (order.autoTrigger === 'yes' && !ec2Ok) {
+    toast('⚠️ Approved but EC2 unreachable — check server!', 'error');
+  } else {
+    toast('✅ Approved! Handle delivery manually.', 'success');
+  }
+}
+
+function rejectOrder(orderId) {
+  if (!confirm('Reject and delete order ' + orderId + '?')) return;
+  const orders = D('bg_pending_orders', []);
+  const idx    = orders.findIndex(o => o.orderId === orderId);
+  if (idx !== -1) { orders[idx].status = 'Rejected'; S('bg_pending_orders', orders); }
+  renderPendingOrders();
+  toast('Order rejected', 'success');
 }
 
 function renderAdminServices() {
